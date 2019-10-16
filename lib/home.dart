@@ -12,6 +12,7 @@ void main() {
 class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+    print('HomePage createState()');
     return HomeState();
   }
 }
@@ -22,12 +23,18 @@ class HomeState extends State {
   List<Widget> pages = new List();
   int _currentIndex = 0;
 
-  var _pageController = new PageController(initialPage: 0);
-
   @override
   void initState() {
+    print('HomeState initState()');
     _init();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print('HomeState dispose()');
   }
 
   void _init() {
@@ -54,10 +61,9 @@ class HomeState extends State {
         ),
         //initialRoute: '/news',
         home: Scaffold(
-          body: Container(
-            color: Colors.white,
-            alignment: Alignment.center,
-            child: pages[_currentIndex+1]
+          body: IndexedStack(
+            index: _currentIndex + 1,
+            children: pages,
           ),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white,

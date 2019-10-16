@@ -2,10 +2,27 @@ import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
-  WelcomeState createState() => WelcomeState();
+  WelcomeState createState() {
+    print('WelcomePage createState()');
+    return WelcomeState();
+  }
 }
 
 class WelcomeState extends State<WelcomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('WelcomeState initState()');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print('WelcomeState dispose()');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

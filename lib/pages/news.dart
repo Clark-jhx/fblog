@@ -2,10 +2,27 @@ import 'package:flutter/material.dart';
 
 class NewsPage extends StatefulWidget {
   @override
-  NewsState createState() => NewsState();
+  NewsState createState() {
+    print('NewsPage createState()');
+    return NewsState();
+  }
 }
 
 class NewsState extends State<NewsPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('NewsState initState()');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print('NewsState dispose()');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

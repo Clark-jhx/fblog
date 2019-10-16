@@ -2,10 +2,27 @@ import 'package:flutter/material.dart';
 
 class BlogPage extends StatefulWidget {
   @override
-  BlogState createState() => BlogState();
+  BlogState createState() {
+    print('BlogPage createState()');
+    return BlogState();
+  }
 }
 
 class BlogState extends State<BlogPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('BlogState initState()');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print('BlogState dispose()');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
