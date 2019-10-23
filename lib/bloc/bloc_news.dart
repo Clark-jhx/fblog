@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:fblog/bloc_common/BlocBase.dart';
 
 class BlocNews extends BlocBase {
-  List<News> news;
+  List<News> news = List();
 
   // 通知控件, 给接收通知的widget使用(通知的数据类型为News)
   StreamController<List<News>> _ctrlWidget = StreamController();
@@ -40,6 +40,11 @@ class BlocNews extends BlocBase {
   }
 }
 
-class News {}
+class News {
+  int id;
+  String title;
+
+  News(this.id, this.title);
+}
 
 enum Action { get_hot_news, get_recent_news }
