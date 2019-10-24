@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:fblog/bean/News.dart';
+
 import 'bloc_common/BlocBase.dart';
 
 class BlocNews extends BlocBase {
@@ -28,10 +30,10 @@ class BlocNews extends BlocBase {
   /// 具体命令逻辑
   void _logic(event) {
     switch (event) {
-      case Action.get_hot_news:
+      case Action.getHotNews:
         //TODO: 获取热门新闻列表
         break;
-      case Action.get_recent_news:
+      case Action.getRecentNews:
         //TODO: 获取最新新闻列表
         break;
     }
@@ -40,11 +42,4 @@ class BlocNews extends BlocBase {
   }
 }
 
-class News {
-  int id;
-  String title;
-
-  News(this.id, this.title);
-}
-
-enum Action { get_hot_news, get_recent_news }
+enum Action { getHotNews, getRecentNews }

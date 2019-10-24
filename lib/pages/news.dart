@@ -1,3 +1,4 @@
+import 'package:fblog/bean/News.dart';
 import 'package:fblog/bloc/bloc_common/BlocProvider.dart';
 import 'package:fblog/bloc/bloc_news.dart';
 import 'package:fblog/bloc/bloc_news.dart' as prefix0;
@@ -7,7 +8,7 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(0),
       child: BlocProvider<BlocNews>(child: NewsPageMain(), bloc: BlocNews()),
     );
   }
@@ -75,7 +76,7 @@ class NewsState extends State<NewsPageMain> {
   // ignore: missing_return
   Future<void> _onRefresh() async {
     await Future.delayed(Duration(milliseconds: 500), () {
-      blocNews.sink.add(prefix0.Action.get_hot_news);
+      blocNews.sink.add(prefix0.Action.getHotNews);
     });
   }
 }
