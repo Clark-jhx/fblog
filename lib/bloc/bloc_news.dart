@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fblog/bloc_common/BlocBase.dart';
+import 'bloc_common/BlocBase.dart';
 
 class BlocNews extends BlocBase {
   List<News> news = List();

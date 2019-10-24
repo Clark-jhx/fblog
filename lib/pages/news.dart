@@ -1,12 +1,15 @@
+import 'package:fblog/bloc/bloc_common/BlocProvider.dart';
 import 'package:fblog/bloc/bloc_news.dart';
 import 'package:fblog/bloc/bloc_news.dart' as prefix0;
-import 'package:fblog/bloc_common/BlocProvider.dart';
 import 'package:flutter/material.dart';
 
 class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<BlocNews>(child: NewsPageMain(), bloc: BlocNews());
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: BlocProvider<BlocNews>(child: NewsPageMain(), bloc: BlocNews()),
+    );
   }
 }
 
