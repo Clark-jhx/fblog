@@ -11,14 +11,12 @@ class BlogPage extends StatefulWidget {
 class BlogState extends State<BlogPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print('BlogState initState()');
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     print('BlogState dispose()');
   }

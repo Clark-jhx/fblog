@@ -11,14 +11,12 @@ class MinePage extends StatefulWidget {
 class MineState extends State<MinePage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print('MineState initState()');
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     print('MineState dispose()');
   }
