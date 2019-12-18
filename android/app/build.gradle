@@ -60,4 +60,14 @@ dependencies {
     // xml to json
     implementation 'org.json:json:20190722'
     implementation 'commons-io:commons-io:2.6'
+    // okhttp
+    implementation 'com.squareup.okhttp3:okhttp:4.2.1'
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.4'
+    // log
+    implementation 'com.orhanobut:logger:2.2.0'
+    // RxJava 2.x
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // RxAndroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 }

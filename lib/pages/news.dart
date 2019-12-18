@@ -1,8 +1,9 @@
-import 'package:fblog/bean/News.dart';
+import 'package:fblog/bean/news.dart';
 import 'package:fblog/bloc/bloc_common/BlocProvider.dart';
 import 'package:fblog/bloc/bloc_news.dart';
 import 'package:fblog/bloc/bloc_news.dart' as prefix0;
 import 'package:flutter/material.dart';
+import 'package:fblog/widgets/item_news.dart';
 
 class NewsPage extends StatelessWidget {
   @override
@@ -50,12 +51,11 @@ class NewsState extends State<NewsPageMain> {
         // in the middle of the parent.
         child: RefreshIndicator(
           onRefresh: _onRefresh,
-          child: StreamBuilder<List<News>>(
-            stream: blocNews.stream,
+          child: StreamBuilder<List<New>>(
+            stream: blocNews.newsStream,
             initialData: List(),
-            builder:
-                (BuildContext context, AsyncSnapshot<List<News>> snapshot) {
-              List<News> news = snapshot.data;
+            builder: (BuildContext context, AsyncSnapshot<List<New>> snapshot) {
+              List<New> news = snapshot.data;
               return ListView.builder(
                   itemCount: news.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -69,14 +69,12 @@ class NewsState extends State<NewsPageMain> {
   }
 
   ///生成ListView的每个item布局
-  Widget _itemBuilder(BuildContext context, int index, List<News> news) {
-    return Text('${news[index].title}');
+  Widget _itemBuilder(BuildContext context, int index, List<New> news) {
+    return ItemNews(news[index]);
   }
 
   // ignore: missing_return
   Future<void> _onRefresh() async {
-    await Future.delayed(Duration(milliseconds: 500), () {
-      blocNews.sink.add(prefix0.Action.getHotNews);
-    });
+    blocNews.sink.add(prefix0.Action.getRecommendNews);
   }
 }

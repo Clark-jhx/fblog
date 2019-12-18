@@ -61,7 +61,7 @@ public class Urls {
      * @param contentId
      * @return
      */
-    public static String getITEM(int contentId) {
+    public static String getNewBody(int contentId) {
         return ITEM + contentId;
     }
 
@@ -73,7 +73,7 @@ public class Urls {
      * @param pageSize
      * @return
      */
-    public static String getCOMMENTS(int contentId, int pageIndex, int pageSize) {
+    public static String getNewCOMMENTS(int contentId, int pageIndex, int pageSize) {
         return ITEM + contentId + "/comments/" + pageIndex + "/" + pageSize;
     }
 
