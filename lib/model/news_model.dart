@@ -49,7 +49,6 @@ class NewsModel {
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var news = News.fromJson(jsonResult);
-          _blocNews.triggerRecentNews(news.entrys);
           _blocNews.triggerRecommandNews(news.entrys);
           break;
         case TRIGGER_NEW_BODY:

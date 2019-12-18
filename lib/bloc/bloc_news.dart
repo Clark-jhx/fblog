@@ -15,9 +15,19 @@ class BlocNews extends BlocBase {
   NewComments newComments;
 
   // 通知控件, 给接收通知的widget使用(通知的数据类型为List<New>)
-  StreamController<List<New>> _ctrlWidget = StreamController();
-  StreamSink<List<New>> get _newsSink => _ctrlWidget.sink;
-  Stream<List<New>> get newsStream => _ctrlWidget.stream;
+  StreamController<List<New>> _hotCrlWidget = StreamController();
+  StreamSink<List<New>> get _hotNewsSink => _hotCrlWidget.sink;
+  Stream<List<New>> get hotNewsStream => _hotCrlWidget.stream;
+
+  // 通知控件, 给接收通知的widget使用(通知的数据类型为List<New>)
+  StreamController<List<New>> _recentCtrlWidget = StreamController();
+  StreamSink<List<New>> get _recentNewsSink => _recentCtrlWidget.sink;
+  Stream<List<New>> get recentNewsStream => _recentCtrlWidget.stream;
+
+  // 通知控件, 给接收通知的widget使用(通知的数据类型为List<New>)
+  StreamController<List<New>> _recommendCtrlWidget = StreamController();
+  StreamSink<List<New>> get _recommendNewsSink => _recommendCtrlWidget.sink;
+  Stream<List<New>> get recommengNewsStream => _recommendCtrlWidget.stream;
 
   // 通知控件, 给接收通知的widget使用(通知的数据类型为NewBody)
   StreamController<NewBody> _newBodyCtrlWidget = StreamController();
@@ -48,7 +58,9 @@ class BlocNews extends BlocBase {
 
   @override
   void dispose() {
-    _ctrlWidget.close();
+    _hotCrlWidget.close();
+    _recentCtrlWidget.close();
+    _recommendCtrlWidget.close();
     _ctrlAction.close();
     _newBodyCtrlWidget.close();
     _newCommentsCtrlWidget.close();
@@ -77,19 +89,19 @@ class BlocNews extends BlocBase {
   void triggerHotNews(List<New> news) {
     // 通知UI
     hotNews = news;
-    _newsSink.add(hotNews);
+    _hotNewsSink.add(hotNews);
   }
 
   void triggerRecentNews(List<New> news) {
     // 通知UI
     recentNews.addAll(news);
-    _newsSink.add(recentNews);
+    _recentNewsSink.add(recentNews);
   }
 
   void triggerRecommandNews(List<New> news) {
     // 通知UI
-    recommandNews = news;
-    _newsSink.add(recommandNews);
+    recommandNews.addAll(news);
+    _recommendNewsSink.add(recommandNews);
   }
 
   void triggerNewBody(NewBody newBody) {
