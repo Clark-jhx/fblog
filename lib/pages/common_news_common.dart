@@ -16,7 +16,7 @@ class CommonNewsContent extends StatefulWidget {
   }
 }
 
-class CommonNewsContentState extends State<CommonNewsContent>{
+class CommonNewsContentState extends State<CommonNewsContent> with AutomaticKeepAliveClientMixin{
   BlocNews blocNews;
   // 该页的新闻列表
   List<New> news = List();
@@ -41,6 +41,7 @@ class CommonNewsContentState extends State<CommonNewsContent>{
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Center(
       // Center is a layout widget. It takes a single child and positions it
       // in the middle of the parent.
@@ -94,6 +95,10 @@ class CommonNewsContentState extends State<CommonNewsContent>{
         break;
     }
   }
+
+  @override
+  // wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 enum Category {
