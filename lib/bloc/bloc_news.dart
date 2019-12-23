@@ -40,16 +40,12 @@ class BlocNews extends BlocBase {
   Stream<NewComments> get newCommentsStream => _newCommentsCtrlWidget.stream;
 
   // 接受命令, 由外面使用(命令类型为Action)
-  StreamController<Action> _ctrlAction = StreamController();
-  StreamSink<Action> get sink => _ctrlAction.sink;
-  Stream<Action> get _stream => _ctrlAction.stream;
+  StreamController<RefreshAction> _ctrlAction = StreamController();
+  StreamSink<RefreshAction> get sink => _ctrlAction.sink;
+  Stream<RefreshAction> get _stream => _ctrlAction.stream;
 
   // News model
   NewsModel newsModel;
-  int _count = 2;
-  int pageIndex = 1;
-  int pageSize = 2;
-  int newId = 651511;
 
   BlocNews() {
     newsModel = NewsModel(this);
@@ -67,29 +63,39 @@ class BlocNews extends BlocBase {
   }
 
   /// 具体命令逻辑
-  void _logic(event) {
-    switch (event) {
+  void _logic(RefreshAction event) {
+    switch (event.action) {
       case Action.getHotNews: // 热门新闻
-        newsModel.getHotNews(_count);
+        if (!event.loadMore) {
+          hotNews.clear();
+        }
+        newsModel.getHotNews(event.pageSize);
         break;
       case Action.getRecentNews: // 最新新闻
-        newsModel.getRecentNews(pageIndex, pageSize);
+        if (!event.loadMore) {
+          recentNews.clear();
+        }
+        newsModel.getRecentNews(event.pageIndex, event.pageSize);
         break;
       case Action.getRecommendNews: // 推荐新闻
-        newsModel.getRecommendNews(pageIndex, pageSize);
+        if (!event.loadMore) {
+          recommandNews.clear();
+        }
+        newsModel.getRecommendNews(event.pageIndex, event.pageSize);
         break;
       case Action.getNewBody: // 新闻内容
-        newsModel.getNewBody(newId);
+        newsModel.getNewBody(event.newId);
         break;
       case Action.getNewComments: // 新闻评论
-        newsModel.getNewComments(newId, pageIndex, pageSize);
+        newsModel.getNewComments(event.newId, event.pageIndex, event.pageSize);
+        break;
     }
   }
 
   void triggerHotNews(List<New> news) {
     // 通知UI
     hotNews = news;
-    _hotNewsSink.add(hotNews);
+    _hotNewsSink.add(news);
   }
 
   void triggerRecentNews(List<New> news) {
@@ -123,4 +129,13 @@ enum Action {
   getRecommendNews,
   getNewBody,
   getNewComments
+}
+
+class RefreshAction {
+  Action action;
+  // 标记是下拉还是上拉刷新
+  bool loadMore;
+  int pageIndex = 1;
+  int pageSize = 10;
+  int newId = 651511;
 }

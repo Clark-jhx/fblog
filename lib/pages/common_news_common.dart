@@ -16,20 +16,38 @@ class CommonNewsContent extends StatefulWidget {
   }
 }
 
-class CommonNewsContentState extends State<CommonNewsContent> with AutomaticKeepAliveClientMixin{
+class CommonNewsContentState extends State<CommonNewsContent>
+    with AutomaticKeepAliveClientMixin {
   BlocNews blocNews;
   // 该页的新闻列表
-  List<New> news = List();
-  int _count = 10;
-  int pageIndex = 1;
-  int pageSize = 10;
+  RefreshAction _refreshAction;
+
+  ScrollController _scrollController;
 
   @override
   void initState() {
     print(widget.category.toString() + ' CommonNewsContent initState()');
+    _init();
+    super.initState();
+  }
+
+  void _init() {
     // 必须在新闻页中使用
     blocNews = BlocProvider.of<BlocNews>(context);
-    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_listlistener);
+    _refreshAction = RefreshAction();
+    switch (widget.category) {
+      case Category.Hot:
+        _refreshAction.action = prefix0.Action.getHotNews;
+        break;
+      case Category.Recent:
+        _refreshAction.action = prefix0.Action.getRecentNews;
+        break;
+      case Category.Recommend:
+        _refreshAction.action = prefix0.Action.getRecommendNews;
+        break;
+    }
   }
 
   @override
@@ -53,9 +71,18 @@ class CommonNewsContentState extends State<CommonNewsContent> with AutomaticKeep
           builder: (BuildContext context, AsyncSnapshot<List<New>> snapshot) {
             List<New> news = snapshot.data;
             return ListView.builder(
-                itemCount: news.length,
+                itemCount: news.length + 1,
+                controller: _scrollController,
+                physics:
+                    AlwaysScrollableScrollPhysics(), // 解决item数量太少，无法下拉刷新的问题
                 itemBuilder: (BuildContext context, int index) {
-                  return _itemBuilder(context, index, news);
+                  if (index == news.length && news.length != 0 && index > 6) {
+                    return _loadMore();
+                  } else if (news.length == 0) {
+                    return _firstLoad();
+                  } else {
+                    return _itemBuilder(context, index, news);
+                  }
                 });
           },
         ),
@@ -68,37 +95,79 @@ class CommonNewsContentState extends State<CommonNewsContent> with AutomaticKeep
     return ItemNews(news[index]);
   }
 
-  Stream getStream(){
+  Stream getStream() {
+    Stream stream;
     switch (widget.category) {
       case Category.Hot:
-        return blocNews.hotNewsStream;
+        stream = blocNews.hotNewsStream;
+        break;
       case Category.Recent:
-        return blocNews.recentNewsStream;
+        stream = blocNews.recentNewsStream;
+        break;
       case Category.Recommend:
-        return blocNews.recommengNewsStream;
-      default:
-        return blocNews.hotNewsStream;
+        stream = blocNews.recommengNewsStream;
+        break;
     }
+    return stream;
   }
 
   // ignore: missing_return
   Future<void> _onRefresh() async {
-    switch (widget.category) {
-      case Category.Hot:
-        blocNews.sink.add(prefix0.Action.getHotNews);
-        break;
-      case Category.Recent:
-        blocNews.sink.add(prefix0.Action.getRecentNews);
-        break;
-      case Category.Recommend:
-        blocNews.sink.add(prefix0.Action.getRecommendNews);
-        break;
+    _refreshAction.loadMore = false;
+    blocNews.sink.add(_refreshAction);
+  }
+
+  // list 滑动监听
+  void _listlistener() {
+    // 滑到最底部
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      _getMore();
     }
+  }
+
+  void _getMore() {
+    print('load more');
+    _refreshAction.loadMore = true;
+    if(_refreshAction.action == prefix0.Action.getHotNews){
+      int pageSize = _refreshAction.pageSize + 10;
+      _refreshAction.pageSize = pageSize;
+    }else{
+      int pageIndex = _refreshAction.pageSize + 1;
+      _refreshAction.pageIndex = pageIndex;
+    }
+    blocNews.sink.add(_refreshAction);
   }
 
   @override
   // wantKeepAlive
   bool get wantKeepAlive => true;
+
+  // 加载更多
+  Widget _loadMore() {
+    return Container(
+      height: 50,
+      alignment: Alignment.center,
+      child: Text('加载更多...'),
+    );
+  }
+
+  // 第一次进入，触发刷新
+  Widget _firstLoad() {
+//    Future.delayed(Duration(milliseconds: 3000), () {
+//      _onRefresh();
+//    });
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+//        CircularProgressIndicator(
+//          value: null,
+//          strokeWidth: 2,
+//        ),
+          Text('下拉刷新'),
+      ],
+    );
+  }
 }
 
 enum Category {
