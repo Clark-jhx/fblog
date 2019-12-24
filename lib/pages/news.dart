@@ -21,7 +21,7 @@ class NewsPageMain extends StatefulWidget {
   }
 }
 
-class NewsState extends State<NewsPageMain>{
+class NewsState extends State<NewsPageMain> {
   @override
   void initState() {
     super.initState();
@@ -39,9 +39,26 @@ class NewsState extends State<NewsPageMain>{
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+//        appBar: AppBar(
+//          leading: Icon(Icons.menu),
+//          actions: <Widget>[Icon(Icons.search)],
+//          title: Text('新闻'),
+//          elevation: 0,
+//          bottom: TabBar(
+//            indicatorSize: TabBarIndicatorSize.label,
+//            indicatorWeight: 1.0,
+//            tabs: <Widget>[
+//              new Tab(text: '热门'),
+//              new Tab(text: '最新'),
+//              new Tab(text: '推荐'),
+//            ],
+//          ),
+//        ),
         appBar: AppBar(
           flexibleSpace: SafeArea(
             child: TabBar(
+              indicatorSize: TabBarIndicatorSize.label,
+              indicatorWeight: 1.0,
               tabs: <Widget>[
                 new Tab(text: '热门'),
                 new Tab(text: '最新'),
