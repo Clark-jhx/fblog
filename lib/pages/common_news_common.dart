@@ -2,8 +2,8 @@ import 'package:fblog/bean/news.dart';
 import 'package:fblog/bloc/bloc_common/BlocProvider.dart';
 import 'package:fblog/bloc/bloc_news.dart';
 import 'package:fblog/bloc/bloc_news.dart' as prefix0;
-import 'package:flutter/material.dart';
 import 'package:fblog/widgets/item_news.dart';
+import 'package:flutter/material.dart';
 
 class CommonNewsContent extends StatefulWidget {
   Category category;
@@ -129,10 +129,10 @@ class CommonNewsContentState extends State<CommonNewsContent>
   void _getMore() {
     print('load more');
     _refreshAction.loadMore = true;
-    if(_refreshAction.action == prefix0.Action.getHotNews){
+    if (_refreshAction.action == prefix0.Action.getHotNews) {
       int pageSize = _refreshAction.pageSize + 10;
       _refreshAction.pageSize = pageSize;
-    }else{
+    } else {
       int pageIndex = _refreshAction.pageSize + 1;
       _refreshAction.pageIndex = pageIndex;
     }
@@ -154,17 +154,18 @@ class CommonNewsContentState extends State<CommonNewsContent>
 
   // 第一次进入，触发刷新
   Widget _firstLoad() {
-//    Future.delayed(Duration(milliseconds: 3000), () {
-//      _onRefresh();
-//    });
-    return Row(
+    Future.delayed(Duration(milliseconds: 1500), () {
+      _onRefresh();
+    });
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-//        CircularProgressIndicator(
-//          value: null,
-//          strokeWidth: 2,
-//        ),
-          Text('下拉刷新'),
+        CircularProgressIndicator(
+          value: null,
+          strokeWidth: 1,
+        ),
+//        Text('下拉刷新'),
       ],
     );
   }
