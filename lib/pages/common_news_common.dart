@@ -92,7 +92,17 @@ class CommonNewsContentState extends State<CommonNewsContent>
 
   ///生成ListView的每个item布局
   Widget _itemBuilder(BuildContext context, int index, List<New> news) {
-    return ItemNews(news[index]);
+    GestureDetector gestureDetector = GestureDetector(
+      child: ItemNews(news[index]),
+      onTap: () => _itemClick(news[index].id),
+    );
+    return gestureDetector;
+  }
+
+  /// item点击
+  _itemClick(String newId) {
+    print('新闻id : ' + newId);
+    Navigator.pushNamed(context, '/details', arguments: {'newId': newId});
   }
 
   Stream getStream() {
