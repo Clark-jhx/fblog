@@ -1,13 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:fblog/bean/newBody.dart';
 import 'package:fblog/bean/newComments.dart';
 import 'package:fblog/bean/news.dart';
-import 'package:fblog/bloc/bloc_news.dart';
+import 'package:fblog/bloc/bloc_news_common.dart';
 import 'package:flutter/services.dart';
-import 'dart:convert';
 
-class NewsModel {
+class NewsModel<T extends BlocNewsCommon> {
   static const String GET_HOT_NEWS = "getHotNews";
   static const String GET_RECENT_NEWS = "getRecentNews";
   static const String GET_RECOMMEND_NEWS = "getRecommendNews";
@@ -26,9 +26,9 @@ class NewsModel {
   static const String KEY_NEW_ID = "newId";
 
   MethodChannel platform;
-  BlocNews _blocNews;
+  T _bloc;
 
-  NewsModel(this._blocNews) {
+  NewsModel(this._bloc) {
     platform = MethodChannel('/news');
     platform.setMethodCallHandler((methodCall) {
       // ignore: missing_return
@@ -37,31 +37,31 @@ class NewsModel {
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var news = News.fromJson(jsonResult);
-          _blocNews.triggerHotNews(news.entrys);
+          _bloc.triggerHotNews(news.entrys);
           break;
         case TRIGGER_RECENT_NEWS:
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var news = News.fromJson(jsonResult);
-          _blocNews.triggerRecentNews(news.entrys);
+          _bloc.triggerRecentNews(news.entrys);
           break;
         case TRIGGER_RECOMMEND_NEWS:
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var news = News.fromJson(jsonResult);
-          _blocNews.triggerRecommandNews(news.entrys);
+          _bloc.triggerRecommandNews(news.entrys);
           break;
         case TRIGGER_NEW_BODY:
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var newBody = NewBody.fromJson(jsonResult);
-          _blocNews.triggerNewBody(newBody);
+          _bloc.triggerNewBody(newBody);
           break;
         case TRIGGER_NEW_COMMENTS:
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var newComments = NewComments.fromJson(jsonResult);
-          _blocNews.triggerNewComments(newComments);
+          _bloc.triggerNewComments(newComments);
       }
     });
   }
