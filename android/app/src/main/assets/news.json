@@ -1,0 +1,70 @@
+{
+  "News": [
+    {
+      "Id": 652961,
+      "Title": "华为首个智能无人售货店开业，葫芦里卖的什么药？",
+      "Summary": "作者：刘伟 雷锋网(公众号：雷锋网)消息 2020 年的头一天，一家华为授权的智能无人售货店在武汉正式开业。据了解，这家无人售货店位于光谷新发展国际中心，外形酷似一个环形的飞碟舱。通过透明的舱壁可以看到里面整齐罗列的商品。 与其说这个无人售货店是一个店，倒不如说是一个大型的自动售货机。因为它通体封闭",
+      "TopicId": 188,
+      "TopicIcon": "https://img2018.cnblogs.com/news_topic/20190730153501178-1904121953.png",
+      "ViewCount": 287,
+      "CommentCount": 1,
+      "DiggCount": 0,
+      "DateAdded": "2020-01-02T17:31:40.997"
+    },
+    {
+      "Id": 652928,
+      "Title": "达摩院2020十大科技趋势发布：云成IT技术创新中心",
+      "Summary": "网易科技讯 1 月 2 日消息，2020 年第一个工作日，“达摩院 2020 十大科技趋势”发布。这是继 2019 年之后，阿里巴巴达摩院第二次预测年度科技趋势。 回望 2019 年的科技领域，静水流深之下仍有暗潮涌动。AI 芯片崛起、智能城市诞生、5G 催生全新应用场景……达摩院去年预测的科技趋势",
+      "TopicId": 6,
+      "TopicIcon": "https://img2018.cnblogs.com/news_topic/20190926155313977-560433391.png",
+      "ViewCount": 1169,
+      "CommentCount": 0,
+      "DiggCount": 2,
+      "DateAdded": "2020-01-02T11:07:53.58"
+    },
+    {
+      "Id": 652923,
+      "Title": "雷军发微博确认原联想手机负责人常程任职小米",
+      "Summary": "网易科技讯 1 月 2 日消息，联想中国区移动业务负责人常程 12 月 31 日发微博官宣离职，对其去向，业界传闻其去荣耀。不过，荣耀方面确认其未任职。今天，小米 CEO 雷军发微博确认，常程加入小米，任职集团副总裁，负责手机产品规划。 常程 2000 年加入的联想，先后打造出联想乐商店、茄子快传等",
+      "TopicId": 368,
+      "TopicIcon": "https://images0.cnblogs.com/news_topic/小米.gif",
+      "ViewCount": 829,
+      "CommentCount": 8,
+      "DiggCount": 0,
+      "DateAdded": "2020-01-02T10:29:18.543"
+    },
+    {
+      "Id": 652890,
+      "Title": "4岁萝莉给Linux内核贡献提交",
+      "Summary": "今天在 reddit 上看到一个有趣的讨论，一个 4 岁的萝莉给 Linux 提交了一个补丁，并且这个补丁合并到了代码中。 链接如下： https://www.reddit.com/r/linux/comments/2pqqla/kernel_commit_4_year_old_girl_fixes",
+      "TopicId": 96,
+      "TopicIcon": "https://img2018.cnblogs.com/news_topic/20190829145513482-1679241842.gif",
+      "ViewCount": 7156,
+      "CommentCount": 17,
+      "DiggCount": 14,
+      "DateAdded": "2020-01-01T13:16:41.823"
+    },
+    {
+      "Id": 652885,
+      "Title": "2019 年 C++ 的发展",
+      "Summary": "C++ 软件工程师 Bartek 发布博客，回顾了 C++ 2019 年的发展情况。 Bartek 主要介绍了 2019 年 C++ 特性上的演进、在全球的会议重大进展、相关工具的改进，以及 C++20 新特性的期待，他总结成三大关注点： C++20 即将发布 工具，现在编写 C++ 代码更加容易 ",
+      "TopicId": 0,
+      "TopicIcon": null,
+      "ViewCount": 1059,
+      "CommentCount": 0,
+      "DiggCount": 2,
+      "DateAdded": "2020-01-01T09:45:34.763"
+    },
+    {
+      "Id": 652855,
+      "Title": "他的肉体正被捐赠者的DNA“占领”：骨髓移植后，你还是你吗？",
+      "Summary": "四年前，来自美国内华达州的 Chris Long 接受了骨髓移植。术后四个月，他被告知其血液中的 DNA 正在被替换——而他的肉体，也正在悄然被 5000 英里外一个德国人的遗传信息 “占据”。 我是谁？“我”还活着么？如今究竟是以谁意念在存活？这是 Chris Long 不曾想过，但如今却不得不面",
+      "TopicId": 0,
+      "TopicIcon": null,
+      "ViewCount": 1926,
+      "CommentCount": 11,
+      "DiggCount": 6,
+      "DateAdded": "2019-12-31T16:01:22.82"
+    }
+  ]
+}
