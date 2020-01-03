@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 
 public class TestNewsModelImple implements NewsIModel{
     Activity activity;
+    Gson gson = new Gson();
 
     public TestNewsModelImple(IView view) {
         activity = (Activity)view;
@@ -38,12 +39,14 @@ public class TestNewsModelImple implements NewsIModel{
 
     @Override
     public void getNewBody(int newId, IPresenter.ResultCallback resultCallback) {
-
+        String newBodyString = readFromAssets("new_body.txt");
+        resultCallback.result(newBodyString);
     }
 
     @Override
     public void getNewComments(int newId, int pageIndex, int pageSize, IPresenter.ResultCallback resultCallback) {
-
+        String newCommentsString = readFromAssets("new_comments.json");
+        resultCallback.result(newCommentsString);
     }
 
     /**
@@ -52,7 +55,7 @@ public class TestNewsModelImple implements NewsIModel{
     private String readFromAssets(String fileName) {
         String result;
         try {
-            InputStream is = activity.getAssets().open("news.json");
+            InputStream is = activity.getAssets().open(fileName);
             String text = readTextFromSDcard(is);
             result = text;
         } catch (Exception e) {

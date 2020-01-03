@@ -1,34 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  String html = """
-    网易科技讯，1 月 2 日消息，今日有自称腾讯 7 年的老员工称，&ldquo;人到中年，被腾讯暴力裁员。&rdquo;据他文章披露，2019 年 3 月某天下午，腾讯 HR
+<p>网易科技讯，1 月 2 日消息，今日有自称腾讯 7 年的老员工称，&ldquo;人到中年，被腾讯暴力裁员。&rdquo;据他文章披露，2019 年 3 月某天下午，腾讯 HR
 	派出大批保安单方面暴力裁员，让很多保安逼迫其收拾东西离开，当场封掉工卡、内网账号、公司邮箱等所有腾讯内部权限和资料，理由是每天工作不足八小时。</p>\r\n<p>据该网友透露，腾讯提供的 10 点到 18
 	点的工位监控视频，是本案劳动仲裁和一审的最重要证据。但该网友声称，腾讯提供的监控视频时间节点都是中断的并不连续，每天提供两段视频，10 点到 14 点，14 点到 18 点。&ldquo;腾讯未提供 10 点-18
 	点时间段以外及周末的监控视频，不能证明我的工作时间全貌，我在 18 点以后的工作状态被腾讯选择性删除。&rdquo;并表示，该监控视频不是连续的，明显截断翻录。</p>\r\n<p
@@ -47,27 +17,3 @@ class _MyHomePageState extends State<MyHomePage> {
 		</p>\r\n
 		<!-- 作者 -->
 		<!-- 声明 --><img src=\"http://counter.cnblogs.com//news/item/652943\" width=\"1\" height=\"1\" style=\"border:0px;visibility:hidden\"/>
-  """;
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('HTML'),
-        ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Container(
-            alignment: Alignment.center,
-            child: Html(
-              padding: EdgeInsets.only(left: 2, top: 1, right: 2, bottom: 1),
-              data: html,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

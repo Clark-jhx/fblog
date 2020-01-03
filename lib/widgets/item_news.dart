@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fblog/bean/news.dart';
+import 'package:flutter/material.dart';
 
 ///新闻列表 item布局
 class ItemNews extends StatefulWidget {
@@ -67,7 +67,7 @@ class _ItemNewsState extends State<ItemNews> {
                       textDirection: TextDirection.ltr,
                       children: <Widget>[
                         Text(
-                          '${widget._new.diggs}',
+                          '${widget._new.diggCount}',
                           textDirection: TextDirection.ltr,
                           style: widget._textStyle_3,
                         ),
@@ -82,7 +82,7 @@ class _ItemNewsState extends State<ItemNews> {
                       textDirection: TextDirection.ltr,
                       children: <Widget>[
                         Text(
-                          '${widget._new.views}',
+                          '${widget._new.viewCount}',
                           textDirection: TextDirection.ltr,
                           style: widget._textStyle_3,
                         ),
@@ -97,7 +97,7 @@ class _ItemNewsState extends State<ItemNews> {
                       textDirection: TextDirection.ltr,
                       children: <Widget>[
                         Text(
-                          '${widget._new.comments}',
+                          '${widget._new.commentCount}',
                           textDirection: TextDirection.ltr,
                           style: widget._textStyle_3,
                         ),

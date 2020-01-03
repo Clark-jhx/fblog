@@ -94,7 +94,7 @@ class CommonNewsContentState extends State<CommonNewsContent>
   Widget _itemBuilder(BuildContext context, int index, List<New> news) {
     GestureDetector gestureDetector = GestureDetector(
       child: ItemNews(news[index]),
-      onTap: () => _itemClick(news[index].id),
+      onTap: () => _itemClick(news[index].id.toString()),
     );
     return gestureDetector;
   }

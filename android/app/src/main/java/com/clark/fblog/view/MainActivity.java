@@ -3,7 +3,9 @@ package com.clark.fblog.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.clark.fblog.Presenter.NewsPresenter;
 import com.clark.fblog.Presenter.NewsPresenterImple;
+import com.clark.fblog.Presenter.TestPresenterImple;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -37,7 +39,7 @@ public class MainActivity extends FlutterActivity implements IMainView {
 
     private MethodChannel mMethodChannel;
     private MethodCallHandler mNewsMethodCallHandler;
-    private NewsPresenterImple mNewsPresenterImple;
+    private NewsPresenter mNewsPresenterImple;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class MainActivity extends FlutterActivity implements IMainView {
 
         Logger.addLogAdapter(new AndroidLogAdapter());
 
-        mNewsPresenterImple = new NewsPresenterImple(this);
+        mNewsPresenterImple = new TestPresenterImple(this);
         mNewsMethodCallHandler = new NewsMethodCallHandler();
 
         mMethodChannel = new MethodChannel(getFlutterView(), NEWS_CHANNEL);

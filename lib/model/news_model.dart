@@ -34,30 +34,37 @@ class NewsModel<T extends BlocNewsCommon> {
       // ignore: missing_return
       switch (methodCall.method) {
         case TRIGGER_HOT_NEWS:
+          print("hot");
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var news = News.fromJson(jsonResult);
           _bloc.triggerHotNews(news.entrys);
           break;
         case TRIGGER_RECENT_NEWS:
+          print("recent");
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var news = News.fromJson(jsonResult);
           _bloc.triggerRecentNews(news.entrys);
           break;
         case TRIGGER_RECOMMEND_NEWS:
+          print("recommend");
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var news = News.fromJson(jsonResult);
           _bloc.triggerRecommandNews(news.entrys);
           break;
         case TRIGGER_NEW_BODY:
+          print("new body");
           print(methodCall.arguments);
-          var jsonResult = json.decode(methodCall.arguments);
-          var newBody = NewBody.fromJson(jsonResult);
+          //var jsonResult = json.decode(methodCall.arguments);
+          // var newBody = NewBody.fromJson(jsonResult);
+          NewBody newBody = NewBody(
+              null, null, null, methodCall.arguments, null, null, null, null);
           _bloc.triggerNewBody(newBody);
           break;
         case TRIGGER_NEW_COMMENTS:
+          print("new comments");
           print(methodCall.arguments);
           var jsonResult = json.decode(methodCall.arguments);
           var newComments = NewComments.fromJson(jsonResult);

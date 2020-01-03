@@ -50,6 +50,7 @@ class BlocNewDetail extends BlocNewsCommon {
   }
 
   void triggerNewBody(NewBody newBody) {
+    print("trigger new body");
     // 通知UI
     this.newBody = newBody;
     _newBodySink.add(newBody);

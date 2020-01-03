@@ -3,24 +3,25 @@ package com.clark.fblog.bean;
 import java.util.List;
 
 public class News_ {
-    private List<New_> News;
 
-    public List<New_> getNews() {
+    private List<NewsBean> News;
+
+    public List<NewsBean> getNews() {
         return News;
     }
 
-    public void setNews(List<New_> News) {
+    public void setNews(List<NewsBean> News) {
         this.News = News;
     }
 
-    public static class New_ {
+    public static class NewsBean {
         /**
          * Id : 652961
          * Title : 华为首个智能无人售货店开业，葫芦里卖的什么药？
          * Summary : 作者：刘伟 雷锋网(公众号：雷锋网)消息 2020 年的头一天，一家华为授权的智能无人售货店在武汉正式开业。据了解，这家无人售货店位于光谷新发展国际中心，外形酷似一个环形的飞碟舱。通过透明的舱壁可以看到里面整齐罗列的商品。 与其说这个无人售货店是一个店，倒不如说是一个大型的自动售货机。因为它通体封闭
          * TopicId : 188
          * TopicIcon : https://img2018.cnblogs.com/news_topic/20190730153501178-1904121953.png
-         * ViewCount : 244
+         * ViewCount : 287
          * CommentCount : 1
          * DiggCount : 0
          * DateAdded : 2020-01-02T17:31:40.997
