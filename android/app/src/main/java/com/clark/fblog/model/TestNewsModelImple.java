@@ -2,7 +2,6 @@ package com.clark.fblog.model;
 
 import android.app.Activity;
 
-import com.clark.fblog.bean.News_;
 import com.clark.fblog.mvp.IPresenter;
 import com.clark.fblog.mvp.IView;
 import com.google.gson.Gson;
@@ -20,7 +19,7 @@ public class TestNewsModelImple implements NewsIModel{
     }
 
     @Override
-    public void getHotNews(int itemCount, IPresenter.ResultCallback resultCallback) {
+    public void getHotNews(int pageIndex, int pageSize, String startDate, String endDate, IPresenter.ResultCallback resultCallback) {
         String newsString = readFromAssets("news.json");
         resultCallback.result(newsString);
     }

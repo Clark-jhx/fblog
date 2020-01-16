@@ -16,8 +16,8 @@ public class TestPresenterImple extends NewsPresenter {
     }
 
     @Override
-    public void getHotNews(int itemCount) {
-        testNewsModelImple.getHotNews(itemCount, new ResultCallback() {
+    public void getHotNews(int pageIndex, int pageSize, String startDate, String endDate) {
+        testNewsModelImple.getHotNews(pageIndex, pageSize, startDate, endDate, new ResultCallback() {
             @Override
             public void result(String result) {
                 ((MainActivity)getView()).triggerHotNews(result);

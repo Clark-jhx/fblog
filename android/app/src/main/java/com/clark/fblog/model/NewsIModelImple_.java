@@ -1,10 +1,10 @@
 package com.clark.fblog.model;
 
-import com.clark.fblog.Urls;
+import com.clark.fblog.Urls_;
 import com.clark.fblog.bean.IHtmlToObject;
 import com.clark.fblog.bean.NewBody;
-import com.clark.fblog.bean.NewComments;
-import com.clark.fblog.bean.News;
+import com.clark.fblog.bean.NewComments_;
+import com.clark.fblog.bean.News_;
 import com.clark.fblog.mvp.IPresenter;
 import com.clark.fblog.utils.ToJson;
 import com.google.gson.Gson;
@@ -23,35 +23,35 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class NewsIModelImple implements NewsIModel {
+public class NewsIModelImple_ implements NewsIModel {
 
-    private String TAG = "NewsIModelImple";
+    private String TAG = "NewsIModelImple_";
     private static final int NET_TIMEOUT = 5000;
 
     @Override
-    public void getHotNews(int itemCount, IPresenter.ResultCallback resultCallback) {
+    public void getHotNews(final int pageIndex, final int pageSize, final String startDate, final String endDate, IPresenter.ResultCallback resultCallback) {
 
-        commonGetNews(Urls.getHOT(itemCount), News.class, resultCallback);
+        commonGetNews(Urls_.getHOT(pageSize), News_.class, resultCallback);
     }
 
     @Override
     public void getRecentNews(int pageIndex, int pageSize, IPresenter.ResultCallback resultCallback) {
-        commonGetNews(Urls.getRecentPage(pageIndex, pageSize), News.class, resultCallback);
+        commonGetNews(Urls_.getRecentPage(pageIndex, pageSize), News_.class, resultCallback);
     }
 
     @Override
     public void getRecommendNews(int pageIndex, int pageSize, IPresenter.ResultCallback resultCallback) {
-        commonGetNews(Urls.getRecommendPage(pageIndex, pageSize), News.class, resultCallback);
+        commonGetNews(Urls_.getRecommendPage(pageIndex, pageSize), News_.class, resultCallback);
     }
 
     @Override
     public void getNewBody(int newId, IPresenter.ResultCallback resultCallback) {
-        commonGetNews(Urls.getNewBody(newId), NewBody.class, resultCallback);
+        commonGetNews(Urls_.getNewBody(newId), NewBody.class, resultCallback);
     }
 
     @Override
     public void getNewComments(int newId, int pageIndex, int pageSize, IPresenter.ResultCallback resultCallback) {
-        commonGetNews(Urls.getNewCOMMENTS(newId, pageIndex, pageSize), NewComments.class, resultCallback);
+        commonGetNews(Urls_.getNewCOMMENTS(newId, pageIndex, pageSize), NewComments_.class, resultCallback);
     }
 
     private <T extends IHtmlToObject> void commonGetNews(String url, Class<T> c, IPresenter.ResultCallback resultCallback){
@@ -81,7 +81,7 @@ public class NewsIModelImple implements NewsIModel {
     }
 
     private <T extends IHtmlToObject> String netGetNews(String url, Class<T> c) throws IOException, InstantiationException, IllegalAccessException {
-        News news;
+        News_ news;
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder().url(url).build();
@@ -98,7 +98,7 @@ public class NewsIModelImple implements NewsIModel {
     }
 
     private String netGetNews(String url) throws IOException {
-        News news;
+        News_ news;
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder().url(url).build();

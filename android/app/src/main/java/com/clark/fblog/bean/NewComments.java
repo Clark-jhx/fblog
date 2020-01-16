@@ -1,201 +1,152 @@
 package com.clark.fblog.bean;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 新闻评论
- * http://wcf.open.cnblogs.com/news/item/651511/comments/1/2
- */
-public class NewComments implements IHtmlToObject {
+public class NewComments {
 
-    private String title;
-    private String id;
-    private String updated;
-    private List<Comment> comments;
+    private List<NewCommentsBean> NewComments;
 
-    public String getTitle() {
-        return title;
+    public List<NewCommentsBean> getNewComments() {
+        return NewComments;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setNewComments(List<NewCommentsBean> NewComments) {
+        this.NewComments = NewComments;
     }
 
-    public String getId() {
-        return id;
-    }
+    public static class NewCommentsBean {
+        /**
+         * CommentID : 411092
+         * ContentID : 0
+         * CommentContent : zan
+         * UserGuid : d2ed414d-2ea4-e611-845c-ac853d9f53ac
+         * UserId : 1058512
+         * UserName : hellotim
+         * FaceUrl : https://pic.cnblogs.com/face/1058512/20191224142237.png
+         * Floor : 1
+         * DateAdded : 2018-01-16T16:01:34.62
+         * AgreeCount : 0
+         * AntiCount : 0
+         * ParentCommentID : 0
+         * ParentComment : null
+         */
 
-    public void setId(String id) {
-        this.id = id;
-    }
+        private int CommentID;
+        private int ContentID;
+        private String CommentContent;
+        private String UserGuid;
+        private int UserId;
+        private String UserName;
+        private String FaceUrl;
+        private int Floor;
+        private String DateAdded;
+        private int AgreeCount;
+        private int AntiCount;
+        private int ParentCommentID;
+        private Object ParentComment;
 
-    public String getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(String updated) {
-        this.updated = updated;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    @Override
-    public IHtmlToObject fromHtml(String htmlString) {
-        NewComments newComments = new NewComments();
-        ArrayList<Comment> comments = new ArrayList<>();
-        Comment comment = null;
-        Author author = null;
-        boolean entry_f = false;
-
-        ByteArrayInputStream in = new ByteArrayInputStream(htmlString.getBytes());
-        try {
-            XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
-            xmlPullParser.setInput(in, "UTF-8");
-            int eventType = xmlPullParser.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                String tagName = xmlPullParser.getName();
-                switch (eventType) {
-                    case XmlPullParser.START_DOCUMENT:
-                        break;
-                    case XmlPullParser.END_DOCUMENT:
-                        break;
-                    case XmlPullParser.START_TAG:
-                        if ("entry".equals(tagName)) {
-                            comment = new Comment();
-                            entry_f = true;
-                        }
-                        if ("author".equals(tagName)){
-                            author = new Author();
-                        }
-                        if (!entry_f) {
-                            if ("title".equals(tagName)) {
-                                newComments.setTitle(xmlPullParser.nextText());
-                            } else if ("id".equals(tagName)) {
-                                newComments.setId(xmlPullParser.nextText());
-                            } else if ("updated".equals(tagName)) {
-                                newComments.setUpdated(xmlPullParser.nextText());
-                            }
-                        } else {
-                            if ("id".equals(tagName)) {
-                                comment.setId(xmlPullParser.nextText());
-                            } else if ("published".equals(tagName)) {
-                                comment.setPublished(xmlPullParser.nextText());
-                            } else if ("updated".equals(tagName)) {
-                                comment.setUpdated(xmlPullParser.nextText());
-                            } else if ("content".equals(tagName)) {
-                                comment.setContent(xmlPullParser.nextText());
-                            }else if ("name".equals(tagName)) {
-                                author.setName(xmlPullParser.nextText());
-                            } else if ("uri".equals(tagName)) {
-                                author.setUri(xmlPullParser.nextText());
-                            }
-                        }
-                        break;
-                    case XmlPullParser.END_TAG:
-                        if ("entry".equals(tagName)) {
-                            entry_f = false;
-                            comments.add(comment);
-                            comment = null;
-                        }
-                        if ("author".equals(tagName)){
-                            comment.setAuthor(author);
-                            author = null;
-                        }
-                        if ("feed".equals(tagName)) {
-                            newComments.setComments(comments);
-                        }
-                        break;
-                }
-                eventType = xmlPullParser.next();
-            }
-        } catch (XmlPullParserException | IOException e) {
-            e.printStackTrace();
-            return null;
+        public int getCommentID() {
+            return CommentID;
         }
 
-        return newComments;
-    }
-
-    public static class Comment{
-        private String id;
-        private String published;
-        private String updated;
-        private Author author;
-        private String content;
-
-        public String getId() {
-            return id;
+        public void setCommentID(int CommentID) {
+            this.CommentID = CommentID;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public int getContentID() {
+            return ContentID;
         }
 
-        public String getPublished() {
-            return published;
+        public void setContentID(int ContentID) {
+            this.ContentID = ContentID;
         }
 
-        public void setPublished(String published) {
-            this.published = published;
+        public String getCommentContent() {
+            return CommentContent;
         }
 
-        public String getUpdated() {
-            return updated;
+        public void setCommentContent(String CommentContent) {
+            this.CommentContent = CommentContent;
         }
 
-        public void setUpdated(String updated) {
-            this.updated = updated;
+        public String getUserGuid() {
+            return UserGuid;
         }
 
-        public Author getAuthor() {
-            return author;
+        public void setUserGuid(String UserGuid) {
+            this.UserGuid = UserGuid;
         }
 
-        public void setAuthor(Author author) {
-            this.author = author;
+        public int getUserId() {
+            return UserId;
         }
 
-        public String getContent() {
-            return content;
+        public void setUserId(int UserId) {
+            this.UserId = UserId;
         }
 
-        public void setContent(String content) {
-            this.content = content;
-        }
-    }
-
-    public static class Author{
-        private String name;
-        private String uri;
-
-        public String getName() {
-            return name;
+        public String getUserName() {
+            return UserName;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setUserName(String UserName) {
+            this.UserName = UserName;
         }
 
-        public String getUri() {
-            return uri;
+        public String getFaceUrl() {
+            return FaceUrl;
         }
 
-        public void setUri(String uri) {
-            this.uri = uri;
+        public void setFaceUrl(String FaceUrl) {
+            this.FaceUrl = FaceUrl;
+        }
+
+        public int getFloor() {
+            return Floor;
+        }
+
+        public void setFloor(int Floor) {
+            this.Floor = Floor;
+        }
+
+        public String getDateAdded() {
+            return DateAdded;
+        }
+
+        public void setDateAdded(String DateAdded) {
+            this.DateAdded = DateAdded;
+        }
+
+        public int getAgreeCount() {
+            return AgreeCount;
+        }
+
+        public void setAgreeCount(int AgreeCount) {
+            this.AgreeCount = AgreeCount;
+        }
+
+        public int getAntiCount() {
+            return AntiCount;
+        }
+
+        public void setAntiCount(int AntiCount) {
+            this.AntiCount = AntiCount;
+        }
+
+        public int getParentCommentID() {
+            return ParentCommentID;
+        }
+
+        public void setParentCommentID(int ParentCommentID) {
+            this.ParentCommentID = ParentCommentID;
+        }
+
+        public Object getParentComment() {
+            return ParentComment;
+        }
+
+        public void setParentComment(Object ParentComment) {
+            this.ParentComment = ParentComment;
         }
     }
 }

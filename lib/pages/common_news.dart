@@ -139,13 +139,8 @@ class CommonNewsContentState extends State<CommonNewsContent>
   void _getMore() {
     print('load more');
     _refreshAction.loadMore = true;
-    if (_refreshAction.action == prefix0.Action.getHotNews) {
-      int pageSize = _refreshAction.pageSize + 10;
-      _refreshAction.pageSize = pageSize;
-    } else {
-      int pageIndex = _refreshAction.pageSize + 1;
-      _refreshAction.pageIndex = pageIndex;
-    }
+    int pageIndex = _refreshAction.pageIndex + 1;
+    _refreshAction.pageIndex = pageIndex;
     blocNews.sink.add(_refreshAction);
   }
 

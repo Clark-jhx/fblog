@@ -57,7 +57,8 @@ class BlocNews extends BlocNewsCommon {
         if (!event.loadMore) {
           hotNews.clear();
         }
-        newsModel.getHotNews(event.pageSize);
+        newsModel.getHotNews(
+            event.pageIndex, event.pageSize, event.startDate, event.endDate);
         break;
       case Action.getRecentNews: // 最新新闻
         if (!event.loadMore) {
@@ -117,5 +118,7 @@ class RefreshAction {
   bool loadMore;
   int pageIndex = 1;
   int pageSize = 10;
+  String startDate = '2018-01-16T16:01:34.62';
+  String endDate = '2018-10-26T15:33:50.587';
   int newId = 651511;
 }

@@ -1,8 +1,6 @@
 package com.clark.fblog.utils;
 
-import android.util.Log;
-
-import com.clark.fblog.bean.News;
+import com.clark.fblog.bean.News_;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
@@ -38,10 +36,10 @@ public class ToJson {
      * @param xmlString
      * @return
      */
-    public static News xmlToObject(String xmlString) {
-        News news = new News();
-        ArrayList<News.New> entrys = new ArrayList<>();
-        News.New aNew = null;
+    public static News_ xmlToObject(String xmlString) {
+        News_ news = new News_();
+        ArrayList<News_.New> entrys = new ArrayList<>();
+        News_.New aNew = null;
         boolean entry_f = false;
         ByteArrayInputStream in = new ByteArrayInputStream(xmlString.getBytes());
         try {
@@ -58,7 +56,7 @@ public class ToJson {
                         break;
                     case XmlPullParser.START_TAG:
                         if ("entry".equals(tagName)) {
-                            aNew = new News.New();
+                            aNew = new News_.New();
                             entry_f = true;
                         }
                         if (!entry_f) {

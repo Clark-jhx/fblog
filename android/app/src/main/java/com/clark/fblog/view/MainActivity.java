@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.clark.fblog.Presenter.NewsPresenter;
 import com.clark.fblog.Presenter.NewsPresenterImple;
-import com.clark.fblog.Presenter.TestPresenterImple;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -17,6 +16,8 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
 public class MainActivity extends FlutterActivity implements IMainView {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String NEWS_CHANNEL = "/news";
 
@@ -32,7 +33,8 @@ public class MainActivity extends FlutterActivity implements IMainView {
     private static final String TRIGGER_NEW_BODY = "triggerNewBody";
     private static final String TRIGGER_NEW_COMMENTS = "triggerNewComments";
 
-    private static final String KEY_COUNT = "count";
+    private static final String KEY_START_DATE = "startDate";
+    private static final String KEY_END_DATE = "endDate";
     private static final String KEY_PAGE_INDEX = "pageIndex";
     private static final String KEY_PAGE_SIZE = "pageSize";
     private static final String KEY_NEW_ID = "newId";
@@ -46,9 +48,13 @@ public class MainActivity extends FlutterActivity implements IMainView {
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(this);
 
+        init();
+    }
+
+    private void init(){
         Logger.addLogAdapter(new AndroidLogAdapter());
 
-        mNewsPresenterImple = new TestPresenterImple(this);
+        mNewsPresenterImple = new NewsPresenterImple(this);
         mNewsMethodCallHandler = new NewsMethodCallHandler();
 
         mMethodChannel = new MethodChannel(getFlutterView(), NEWS_CHANNEL);
@@ -88,10 +94,13 @@ public class MainActivity extends FlutterActivity implements IMainView {
 
         @Override
         public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-
+            Logger.t(TAG).i("android端调用 " + call.method);
             if (GET_HOT_NEWS.equals(call.method)) {
-                int count = call.argument(KEY_COUNT);
-                mNewsPresenterImple.getHotNews(count);
+                int pageIndex = call.argument(KEY_PAGE_INDEX);
+                int pageSize = call.argument(KEY_PAGE_SIZE);
+                String startDate = call.argument(KEY_START_DATE);
+                String endDate = call.argument(KEY_END_DATE);
+                mNewsPresenterImple.getHotNews(pageIndex, pageSize, startDate, endDate);
             }
             if (GET_RECENT_NEWS.equals(call.method)) {
                 int pageIndex = call.argument(KEY_PAGE_INDEX);

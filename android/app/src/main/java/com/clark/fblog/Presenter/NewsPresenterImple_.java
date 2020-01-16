@@ -1,19 +1,20 @@
 package com.clark.fblog.Presenter;
 
 import com.clark.fblog.model.NewsIModel;
+import com.clark.fblog.model.NewsIModelImple_;
 import com.clark.fblog.model.NewsModelImple;
-import com.clark.fblog.view.MainActivity;
 import com.clark.fblog.mvp.IView;
+import com.clark.fblog.view.MainActivity;
 
-public class NewsPresenterImple extends NewsPresenter{
+public class NewsPresenterImple_ extends NewsPresenter{
 
     private NewsIModel newsIModelImple;
 
-    public NewsPresenterImple(){}
+    public NewsPresenterImple_(){}
 
-    public NewsPresenterImple(IView v){
+    public NewsPresenterImple_(IView v){
         super(v);
-        newsIModelImple = new NewsModelImple();
+        newsIModelImple = new NewsIModelImple_();
     }
 
     @Override

@@ -20,7 +20,8 @@ class NewsModel<T extends BlocNewsCommon> {
   static const String TRIGGER_NEW_BODY = "triggerNewBody";
   static const String TRIGGER_NEW_COMMENTS = "triggerNewComments";
 
-  static const String KEY_COUNT = "count";
+  static const String KEY_START_DATE = "startDate";
+  static const String KEY_END_DATE = "endDate";
   static const String KEY_PAGE_INDEX = "pageIndex";
   static const String KEY_PAGE_SIZE = "pageSize";
   static const String KEY_NEW_ID = "newId";
@@ -74,10 +75,15 @@ class NewsModel<T extends BlocNewsCommon> {
   }
 
   /// 获取热门新闻
-  Future getHotNews(int count) async {
+  Future getHotNews(
+      int pageIndex, int pageSize, String startDate, String endDate) async {
     try {
-      await platform
-          .invokeMethod(GET_HOT_NEWS, <String, int>{KEY_COUNT: count});
+      await platform.invokeMethod(GET_HOT_NEWS, <String, dynamic>{
+        KEY_PAGE_INDEX: pageIndex,
+        KEY_PAGE_SIZE: pageSize,
+        KEY_START_DATE: startDate,
+        KEY_END_DATE: endDate
+      });
     } on PlatformException catch (e) {
       return null;
     }

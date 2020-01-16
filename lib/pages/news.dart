@@ -1,6 +1,6 @@
 import 'package:fblog/bloc/bloc_common/BlocProvider.dart';
 import 'package:fblog/bloc/bloc_news.dart';
-import 'package:fblog/pages/common_news_common.dart';
+import 'package:fblog/pages/common_news.dart';
 import 'package:flutter/material.dart';
 
 class NewsPage extends StatelessWidget {

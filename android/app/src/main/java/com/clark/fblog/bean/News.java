@@ -1,259 +1,112 @@
 package com.clark.fblog.bean;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import java.util.List;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
+public class News {
 
-/**
- * 新闻列表
- * http://wcf.open.cnblogs.com/news/hot/2
- */
-public class News implements IHtmlToObject {
-    private String title;
-    private String id;
-    private String updated;
-    private String link;
+    private List<NewsBean> News;
 
-    public String getTitle() {
-        return title;
+    public List<NewsBean> getNews() {
+        return News;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setNews(List<NewsBean> News) {
+        this.News = News;
     }
 
-    public String getId() {
-        return id;
-    }
+    public static class NewsBean {
+        /**
+         * Id : 652961
+         * Title : 华为首个智能无人售货店开业，葫芦里卖的什么药？
+         * Summary : 作者：刘伟 雷锋网(公众号：雷锋网)消息 2020 年的头一天，一家华为授权的智能无人售货店在武汉正式开业。据了解，这家无人售货店位于光谷新发展国际中心，外形酷似一个环形的飞碟舱。通过透明的舱壁可以看到里面整齐罗列的商品。 与其说这个无人售货店是一个店，倒不如说是一个大型的自动售货机。因为它通体封闭
+         * TopicId : 188
+         * TopicIcon : https://img2018.cnblogs.com/news_topic/20190730153501178-1904121953.png
+         * ViewCount : 287
+         * CommentCount : 1
+         * DiggCount : 0
+         * DateAdded : 2020-01-02T17:31:40.997
+         */
 
-    public void setId(String id) {
-        this.id = id;
-    }
+        private int Id;
+        private String Title;
+        private String Summary;
+        private int TopicId;
+        private String TopicIcon;
+        private int ViewCount;
+        private int CommentCount;
+        private int DiggCount;
+        private String DateAdded;
 
-    public String getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(String updated) {
-        this.updated = updated;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public ArrayList<New> getEntrys() {
-        return entrys;
-    }
-
-    public void setEntrys(ArrayList<New> entrys) {
-        this.entrys = entrys;
-    }
-
-    private ArrayList<New> entrys;
-
-    @Override
-    public News fromHtml(String htmlString) {
-        News news = new News();
-        ArrayList<News.New> entrys = new ArrayList<>();
-        News.New aNew = null;
-        boolean entry_f = false;
-
-        ByteArrayInputStream in = new ByteArrayInputStream(htmlString.getBytes());
-        try {
-            XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
-            xmlPullParser.setInput(in, "UTF-8");
-            int eventType = xmlPullParser.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                String tagName = xmlPullParser.getName();
-                switch (eventType) {
-                    case XmlPullParser.START_DOCUMENT:
-                        break;
-                    case XmlPullParser.END_DOCUMENT:
-                        break;
-                    case XmlPullParser.START_TAG:
-                        if ("entry".equals(tagName)) {
-                            aNew = new News.New();
-                            entry_f = true;
-                        }
-                        if (!entry_f) {
-                            if ("title".equals(tagName)) {
-                                news.setTitle(xmlPullParser.nextText());
-                            } else if ("id".equals(tagName)) {
-                                news.setId(xmlPullParser.nextText());
-                            } else if ("updated".equals(tagName)) {
-                                news.setUpdated(xmlPullParser.nextText());
-                            } else if ("link".equals(tagName)) {
-                                news.setLink(xmlPullParser.getAttributeValue(0));
-                            }
-                        } else {
-                            if ("id".equals(tagName)) {
-                                aNew.setId(xmlPullParser.nextText());
-                            } else if ("title".equals(tagName)) {
-                                aNew.setTitle(xmlPullParser.nextText());
-                            } else if ("summary".equals(tagName)) {
-                                aNew.setSummary(xmlPullParser.nextText());
-                            } else if ("published".equals(tagName)) {
-                                aNew.setPublished(xmlPullParser.nextText());
-                            } else if ("updated".equals(tagName)) {
-                                aNew.setUpdated(xmlPullParser.nextText());
-                            } else if ("link".equals(tagName)) {
-                                aNew.setLink(xmlPullParser.getAttributeValue(1));
-                            } else if ("diggs".equals(tagName)) {
-                                aNew.setDiggs(xmlPullParser.nextText());
-                            } else if ("views".equals(tagName)) {
-                                aNew.setViews(xmlPullParser.nextText());
-                            }else if ("comments".equals(tagName)) {
-                                aNew.setComments(xmlPullParser.nextText());
-                            }else if ("topic".equals(tagName)) {
-                                aNew.setTopic(xmlPullParser.nextText());
-                            }else if ("topicIcon".equals(tagName)) {
-                                aNew.setTopicIcon(xmlPullParser.nextText());
-                            }else if ("sourceName".equals(tagName)) {
-                                aNew.setSourceName(xmlPullParser.nextText());
-                            }
-                        }
-                        break;
-                    case XmlPullParser.END_TAG:
-                        if ("entry".equals(tagName)) {
-                            entry_f = false;
-                            entrys.add(aNew);
-                            aNew = null;
-                        }
-                        if ("feed".equals(tagName)) {
-                            news.setEntrys(entrys);
-                        }
-                        break;
-                }
-                eventType = xmlPullParser.next();
-            }
-        } catch (XmlPullParserException | IOException e) {
-            e.printStackTrace();
-            return null;
+        public int getId() {
+            return Id;
         }
 
-        return news;
-    }
-
-
-    public static class New{
-        private String id;
-        private String title;
-        private String summary;
-
-        public String getPublished() {
-            return published;
-        }
-
-        public void setPublished(String published) {
-            this.published = published;
-        }
-
-        private String published;
-        private String updated;
-        private String link;
-        private String diggs;
-        private String views;
-        private String comments;
-        private String topic;
-        private String topicIcon;
-        private String sourceName;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
+        public void setId(int Id) {
+            this.Id = Id;
         }
 
         public String getTitle() {
-            return title;
+            return Title;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
+        public void setTitle(String Title) {
+            this.Title = Title;
         }
 
         public String getSummary() {
-            return summary;
+            return Summary;
         }
 
-        public void setSummary(String summary) {
-            this.summary = summary;
+        public void setSummary(String Summary) {
+            this.Summary = Summary;
         }
 
-        public String getUpdated() {
-            return updated;
+        public int getTopicId() {
+            return TopicId;
         }
 
-        public void setUpdated(String update) {
-            this.updated = update;
-        }
-
-        public String getLink() {
-            return link;
-        }
-
-        public void setLink(String link) {
-            this.link = link;
-        }
-
-        public String getDiggs() {
-            return diggs;
-        }
-
-        public void setDiggs(String diggs) {
-            this.diggs = diggs;
-        }
-
-        public String getViews() {
-            return views;
-        }
-
-        public void setViews(String views) {
-            this.views = views;
-        }
-
-        public String getComments() {
-            return comments;
-        }
-
-        public void setComments(String comments) {
-            this.comments = comments;
-        }
-
-        public String getTopic() {
-            return topic;
-        }
-
-        public void setTopic(String tipic) {
-            this.topic = tipic;
+        public void setTopicId(int TopicId) {
+            this.TopicId = TopicId;
         }
 
         public String getTopicIcon() {
-            return topicIcon;
+            return TopicIcon;
         }
 
-        public void setTopicIcon(String topicIcon) {
-            this.topicIcon = topicIcon;
+        public void setTopicIcon(String TopicIcon) {
+            this.TopicIcon = TopicIcon;
         }
 
-        public String getSourceName() {
-            return sourceName;
+        public int getViewCount() {
+            return ViewCount;
         }
 
-        public void setSourceName(String sourceName) {
-            this.sourceName = sourceName;
+        public void setViewCount(int ViewCount) {
+            this.ViewCount = ViewCount;
+        }
+
+        public int getCommentCount() {
+            return CommentCount;
+        }
+
+        public void setCommentCount(int CommentCount) {
+            this.CommentCount = CommentCount;
+        }
+
+        public int getDiggCount() {
+            return DiggCount;
+        }
+
+        public void setDiggCount(int DiggCount) {
+            this.DiggCount = DiggCount;
+        }
+
+        public String getDateAdded() {
+            return DateAdded;
+        }
+
+        public void setDateAdded(String DateAdded) {
+            this.DateAdded = DateAdded;
         }
     }
 }
