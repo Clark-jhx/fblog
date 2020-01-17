@@ -18,6 +18,8 @@ class CommonNewsContent extends StatefulWidget {
 
 class CommonNewsContentState extends State<CommonNewsContent>
     with AutomaticKeepAliveClientMixin {
+  bool flag = false;
+
   BlocNews blocNews;
   // 该页的新闻列表
   RefreshAction _refreshAction;
@@ -123,6 +125,14 @@ class CommonNewsContentState extends State<CommonNewsContent>
 
   // ignore: missing_return
   Future<void> _onRefresh() async {
+    if (flag) {
+      return;
+    }
+    flag = true;
+    print('下拉刷新');
+    Future.delayed(Duration(milliseconds: 3000), () {
+      flag = false;
+    });
     _refreshAction.loadMore = false;
     blocNews.sink.add(_refreshAction);
   }
@@ -137,7 +147,7 @@ class CommonNewsContentState extends State<CommonNewsContent>
   }
 
   void _getMore() {
-    print('load more');
+    print('上拉加载');
     _refreshAction.loadMore = true;
     int pageIndex = _refreshAction.pageIndex + 1;
     _refreshAction.pageIndex = pageIndex;
