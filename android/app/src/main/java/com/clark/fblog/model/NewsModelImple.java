@@ -26,13 +26,9 @@ public class NewsModelImple implements NewsIModel {
     public void getHotNews( int pageIndex, int pageSize, String startDate, String endDate, IPresenter.ResultCallback resultCallback) {
         //startDate_ = "2018-01-16T16:01:34.62";
         //endDate_ = "2018-10-26T15:33:50.587";
-        commonGetNews(Urls.getHot(), () -> {
-            Map<String, String> params = new HashMap<>();
-            params.put("pageIndex", String.valueOf(pageIndex));
-            params.put("pageSize", String.valueOf(pageSize));
-            params.put("startDate", startDate);
-            params.put("endDate", endDate);
-            Response response = OkhttpManager.getInstance().snycGet(Urls.getHot(), params);
+        String url = Urls.getHot(pageIndex, pageSize, startDate, endDate);
+        commonGetNews(url, () -> {
+            Response response = OkhttpManager.getInstance().snycGet(url, null);
             if (response == null) {
                 return "";
             } else {
@@ -48,11 +44,9 @@ public class NewsModelImple implements NewsIModel {
 
     @Override
     public void getRecentNews(int pageIndex, int pageSize, IPresenter.ResultCallback resultCallback) {
-        commonGetNews(Urls.getRecent(), () -> {
-            Map<String, String> params = new HashMap<>();
-            params.put("pageIndex", String.valueOf(pageIndex));
-            params.put("pageSize", String.valueOf(pageSize));
-            Response response = OkhttpManager.getInstance().snycGet(Urls.getRecent(), params);
+        String url = Urls.getRecent(pageIndex, pageSize);
+        commonGetNews(url, () -> {
+            Response response = OkhttpManager.getInstance().snycGet(url, null);
             if (response == null) {
                 return "";
             } else {
@@ -68,11 +62,9 @@ public class NewsModelImple implements NewsIModel {
 
     @Override
     public void getRecommendNews(int pageIndex, int pageSize, IPresenter.ResultCallback resultCallback) {
-        commonGetNews(Urls.getRecommend(), () -> {
-            Map<String, String> params = new HashMap<>();
-            params.put("pageIndex", String.valueOf(pageIndex));
-            params.put("pageSize", String.valueOf(pageSize));
-            Response response = OkhttpManager.getInstance().snycGet(Urls.getRecommend(), params);
+        String url = Urls.getRecommend(pageIndex, pageSize);
+        commonGetNews(url, () -> {
+            Response response = OkhttpManager.getInstance().snycGet(url, null);
             if (response == null) {
                 return "";
             } else {
@@ -88,8 +80,9 @@ public class NewsModelImple implements NewsIModel {
 
     @Override
     public void getNewBody(int newId, IPresenter.ResultCallback resultCallback) {
-        commonGetNews(Urls.getNewBody(newId), () -> {
-            Response response = OkhttpManager.getInstance().snycGet(Urls.getNewBody(newId), null);
+        String url = Urls.getNewBody(newId);
+        commonGetNews(url, () -> {
+            Response response = OkhttpManager.getInstance().snycGet(url, null);
             if (response == null) {
                 return "";
             } else {
@@ -105,12 +98,9 @@ public class NewsModelImple implements NewsIModel {
 
     @Override
     public void getNewComments(int newId, int pageIndex, int pageSize, IPresenter.ResultCallback resultCallback) {
-        commonGetNews(Urls.getNewComments(newId), () -> {
-            Map<String, String> params = new HashMap<>();
-            params.put("newsId", String.valueOf(newId));
-            params.put("pageIndex", String.valueOf(pageIndex));
-            params.put("pageSize", String.valueOf(pageSize));
-            Response response = OkhttpManager.getInstance().snycGet(Urls.getNewComments(newId), params);
+        String url = Urls.getNewComments(newId, pageIndex, pageSize);
+        commonGetNews(url, () -> {
+            Response response = OkhttpManager.getInstance().snycGet(url, null);
             if (response == null) {
                 return "";
             } else {

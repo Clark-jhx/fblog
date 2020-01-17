@@ -14,23 +14,55 @@ public class Urls {
         return API_TOKEN;
     }
 
-    public static String getHot(){
-        return HOT;
+    public static String getHot(int pageIndex, int pageSize, String startDate, String endDate){
+        StringBuffer buffer = new StringBuffer();
+        return buffer.append(HOT)
+            .append("?")
+            .append("pageIndex=")
+            .append(pageIndex)
+            .append("&pageSize=")
+            .append(pageSize)
+            .append("&startDate=")
+            .append(startDate)
+            .append("&endDate=")
+            .append(endDate)
+            .toString();
     }
 
-    public static String getRecent(){
-        return RECENT;
+    public static String getRecent(int pageIndex, int pageSize){
+        StringBuffer buffer = new StringBuffer();
+        return buffer.append(RECENT)
+            .append("?")
+            .append("pageIndex=")
+            .append(pageIndex)
+            .append("&pageSize=")
+            .append(pageSize)
+            .toString();
     }
 
-    public static String getRecommend(){
-        return RECOMMEND;
+    public static String getRecommend(int pageIndex, int pageSize){
+        StringBuffer buffer = new StringBuffer();
+        return buffer.append(RECOMMEND)
+            .append("?")
+            .append("pageIndex=")
+            .append(pageIndex)
+            .append("&pageSize=")
+            .append(pageSize)
+            .toString();
     }
 
     public static String getNewBody(int id){
         return BASE + "/newsitems/" + id + "/body";
     }
 
-    public static String getNewComments(int id){
-        return BASE + "/news/" + id + "/comments";
+    public static String getNewComments(int id, int pageIndex, int pageSize){
+        StringBuffer buffer = new StringBuffer();
+        return buffer.append(BASE + "/news/" + id + "/comments")
+            .append("?")
+            .append("pageIndex=")
+            .append(pageIndex)
+            .append("&pageSize=")
+            .append(pageSize)
+            .toString();
     }
 }

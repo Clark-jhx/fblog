@@ -79,8 +79,8 @@ class BlocNews extends BlocNewsCommon {
 
   void triggerHotNews(List<New> news) {
     // 通知UI
-    hotNews = news;
-    _hotNewsSink.add(news);
+    hotNews.addAll(news);
+    _hotNewsSink.add(hotNews);
   }
 
   void triggerRecentNews(List<New> news) {
