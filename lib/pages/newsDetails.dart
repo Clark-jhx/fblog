@@ -1,8 +1,6 @@
 import 'package:fblog/bean/newBody.dart';
 import 'package:fblog/bloc/bloc_common/BlocProvider.dart';
 import 'package:fblog/bloc/bloc_new_detail.dart';
-import 'package:fblog/bloc/bloc_news.dart';
-import 'package:fblog/bloc/bloc_news.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -22,15 +20,20 @@ class NewsDetailsMain extends StatefulWidget {
 }
 
 class NewsDetailsMainState extends State<NewsDetailsMain> {
-  RefreshAction _refreshAction;
+  static const String TAG = "newsDetails.dart ";
   String newID;
   BlocNewDetail _blocNewBody;
 
   @override
   void initState() {
     _blocNewBody = BlocProvider.of<BlocNewDetail>(context);
-    _refreshAction = RefreshAction();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    print(TAG + "newsDetail.dispose");
+    super.dispose();
   }
 
   @override
@@ -39,10 +42,8 @@ class NewsDetailsMainState extends State<NewsDetailsMain> {
     dynamic arguments = ModalRoute.of(context).settings.arguments;
     newID = arguments['newId'];
     // 等候一秒 触发更新
-    _refreshAction.newId = int.parse(newID);
-    _refreshAction.action = prefix0.Action.getNewBody;
     Future.delayed(Duration(milliseconds: 1000), () {
-      _blocNewBody.sink.add(_refreshAction);
+      _blocNewBody.getNewBody(int.parse(newID));
     });
 
     return Scaffold(
@@ -71,7 +72,7 @@ class NewsDetailsMainState extends State<NewsDetailsMain> {
                   child: Html(
                     padding:
                         EdgeInsets.only(left: 2, top: 1, right: 2, bottom: 1),
-                    data: newBody.content,
+                    data: newBody.content.replaceAll("\\r\\n", " "),
                   ),
                 );
               }

@@ -1,7 +1,6 @@
 import 'package:fblog/bean/news.dart';
 import 'package:fblog/bloc/bloc_common/BlocProvider.dart';
 import 'package:fblog/bloc/bloc_news.dart';
-import 'package:fblog/bloc/bloc_news.dart' as prefix0;
 import 'package:fblog/widgets/item_news.dart';
 import 'package:flutter/material.dart';
 
@@ -18,17 +17,22 @@ class CommonNewsContent extends StatefulWidget {
 
 class CommonNewsContentState extends State<CommonNewsContent>
     with AutomaticKeepAliveClientMixin {
+  static const String TAG = "common_news.dart ";
+  static const int PAGESIZE = 10;
   bool flag = false;
 
+  int pageIndex = 1;
+  int pageSize = PAGESIZE;
+  String startDate = '2018-01-16T16:01:34.62';
+  String endDate = '2018-10-26T15:33:50.587';
+
   BlocNews blocNews;
-  // 该页的新闻列表
-  RefreshAction _refreshAction;
 
   ScrollController _scrollController;
 
   @override
   void initState() {
-    print(widget.category.toString() + ' CommonNewsContent initState()');
+    print(TAG + widget.category.toString() + ' CommonNewsContent initState()');
     _init();
     super.initState();
   }
@@ -38,23 +42,11 @@ class CommonNewsContentState extends State<CommonNewsContent>
     blocNews = BlocProvider.of<BlocNews>(context);
     _scrollController = ScrollController();
     _scrollController.addListener(_listlistener);
-    _refreshAction = RefreshAction();
-    switch (widget.category) {
-      case Category.Hot:
-        _refreshAction.action = prefix0.Action.getHotNews;
-        break;
-      case Category.Recent:
-        _refreshAction.action = prefix0.Action.getRecentNews;
-        break;
-      case Category.Recommend:
-        _refreshAction.action = prefix0.Action.getRecommendNews;
-        break;
-    }
   }
 
   @override
   void dispose() {
-    print(widget.category.toString() + ' CommonNewsContent dispose()');
+    print(TAG + widget.category.toString() + ' CommonNewsContent dispose()');
     blocNews.dispose();
     super.dispose();
   }
@@ -72,6 +64,7 @@ class CommonNewsContentState extends State<CommonNewsContent>
           initialData: List(),
           builder: (BuildContext context, AsyncSnapshot<List<New>> snapshot) {
             List<New> news = snapshot.data;
+            print(TAG + "列表有更新 列表大小：" + news.length.toString());
             return ListView.builder(
                 itemCount: news.length + 1,
                 controller: _scrollController,
@@ -103,7 +96,7 @@ class CommonNewsContentState extends State<CommonNewsContent>
 
   /// item点击
   _itemClick(String newId) {
-    print('新闻id : ' + newId);
+    print(TAG + '新闻id : ' + newId);
     Navigator.pushNamed(context, '/details', arguments: {'newId': newId});
   }
 
@@ -129,12 +122,11 @@ class CommonNewsContentState extends State<CommonNewsContent>
       return;
     }
     flag = true;
-    print('下拉刷新');
+    print(TAG + '下拉刷新');
     Future.delayed(Duration(milliseconds: 3000), () {
       flag = false;
     });
-    _refreshAction.loadMore = false;
-    blocNews.sink.add(_refreshAction);
+    _getNews(1, PAGESIZE, startDate, endDate);
   }
 
   // list 滑动监听
@@ -147,11 +139,23 @@ class CommonNewsContentState extends State<CommonNewsContent>
   }
 
   void _getMore() {
-    print('上拉加载');
-    _refreshAction.loadMore = true;
-    int pageIndex = _refreshAction.pageIndex + 1;
-    _refreshAction.pageIndex = pageIndex;
-    blocNews.sink.add(_refreshAction);
+    print(TAG + '上拉加载');
+    pageIndex++;
+    _getNews(pageIndex, PAGESIZE, startDate, endDate);
+  }
+
+  void _getNews(int pageIndex, int pageSize, String startDate, String endDate) {
+    switch (widget.category) {
+      case Category.Hot:
+        blocNews.getHotNews(pageIndex, pageSize, startDate, endDate);
+        break;
+      case Category.Recent:
+        blocNews.getRecentNews(pageIndex, pageSize);
+        break;
+      case Category.Recommend:
+        blocNews.getRecommandNews(pageIndex, pageSize);
+        break;
+    }
   }
 
   @override

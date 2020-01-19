@@ -19,6 +19,7 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
+  static const String TAG = "refresh.dart ";
   EasyRefreshController _controller;
 
   int _count = 20;
@@ -45,7 +46,7 @@ class _ExampleState extends State<Example> {
           footer: ClassicalFooter(),
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 2), () {
-              print('onRefresh');
+              print(TAG + 'onRefresh');
               setState(() {
                 _count = 20;
               });
@@ -54,7 +55,7 @@ class _ExampleState extends State<Example> {
           },
           onLoad: () async {
             await Future.delayed(Duration(seconds: 2), () {
-              print('onLoad');
+              print(TAG + 'onLoad');
               setState(() {
                 _count += 10;
               });

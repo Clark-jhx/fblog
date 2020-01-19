@@ -25,8 +25,10 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
 }
 
 class _BlocProviderState<T> extends State<BlocProvider<BlocBase>> {
+  static const String TAG = "BlocProvider.dart ";
   @override
   void dispose() {
+    print(TAG + "BlocProvider.dispose");
     widget.bloc.dispose();
     super.dispose();
   }

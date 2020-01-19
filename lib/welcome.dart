@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
+  static const String TAG = "welcome.dart ";
   @override
   WelcomeState createState() {
-    print('WelcomePage createState()');
+    print(TAG + 'WelcomePage createState()');
     return WelcomeState();
   }
 }
 
 class WelcomeState extends State<WelcomePage> {
+  static const String TAG = "welcome.dart ";
   @override
   void initState() {
     super.initState();
-    print('WelcomeState initState()');
+    print(TAG + 'WelcomeState initState()');
   }
 
   @override
   void dispose() {
     super.dispose();
-    print('WelcomeState dispose()');
+    print(TAG + 'WelcomeState dispose()');
   }
 
   @override

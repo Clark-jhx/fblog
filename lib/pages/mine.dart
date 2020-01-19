@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 
 class MinePage extends StatefulWidget {
+  static const String TAG = "mine.dart ";
   @override
   MineState createState() {
-    print('MinePage createState()');
+    print(TAG + 'MinePage createState()');
     return MineState();
   }
 }
 
 class MineState extends State<MinePage> {
+  static const String TAG = "mine.dart ";
   @override
   void initState() {
     super.initState();
-    print('MineState initState()');
+    print(TAG + 'MineState initState()');
   }
 
   @override
   void dispose() {
     super.dispose();
-    print('MineState dispose()');
+    print(TAG + 'MineState dispose()');
   }
 
   @override

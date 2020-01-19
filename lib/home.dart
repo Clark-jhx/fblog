@@ -37,14 +37,16 @@ class MyAppState extends State<MyApp> {
 }
 
 class HomePage extends StatefulWidget {
+  static const String TAG = "home.dart ";
   @override
   State<StatefulWidget> createState() {
-    print('HomePage createState()');
+    print(TAG + 'HomePage createState()');
     return HomePageState();
   }
 }
 
 class HomePageState extends State {
+  static const String TAG = "home.dart ";
   List<BottomNavigationBarItem> _bottomNaivgationBars = new List();
   Map<String, WidgetBuilder> _routes = new Map();
   List<Widget> pages = new List();
@@ -52,7 +54,7 @@ class HomePageState extends State {
 
   @override
   void initState() {
-    print('HomeState initState()');
+    print(TAG + 'HomeState initState()');
     _init();
     super.initState();
   }
@@ -60,7 +62,7 @@ class HomePageState extends State {
   @override
   void dispose() {
     super.dispose();
-    print('HomeState dispose()');
+    print(TAG + 'HomeState dispose()');
   }
 
   void _init() {

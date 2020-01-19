@@ -14,24 +14,26 @@ class NewsPage extends StatelessWidget {
 }
 
 class NewsPageMain extends StatefulWidget {
+  static const String TAG = "news.dart ";
   @override
   NewsState createState() {
-    print('NewsPage createState()');
+    print(TAG + 'NewsPage createState()');
     return NewsState();
   }
 }
 
 class NewsState extends State<NewsPageMain> {
+  static const String TAG = "news.dart ";
   @override
   void initState() {
     super.initState();
-    print('NewsState initState()');
+    print(TAG + 'NewsState initState()');
   }
 
   @override
   void dispose() {
     super.dispose();
-    print('NewsState dispose()');
+    print(TAG + 'NewsState dispose()');
   }
 
   @override

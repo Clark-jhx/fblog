@@ -8,11 +8,7 @@ import 'package:fblog/bloc/bloc_news_common.dart';
 import '../model/news_model.dart';
 
 class BlocNews extends BlocNewsCommon {
-  List<New> hotNews = List();
-  List<New> recentNews = List();
-  List<New> recommandNews = List();
-  NewBody newBody;
-  NewComments newComments;
+  static const String TAG = "bloc_news.dart ";
 
   // 通知控件, 给接收通知的widget使用(通知的数据类型为List<New>)
   StreamController<List<New>> _hotCrlWidget = StreamController();
@@ -29,70 +25,50 @@ class BlocNews extends BlocNewsCommon {
   StreamSink<List<New>> get _recommendNewsSink => _recommendCtrlWidget.sink;
   Stream<List<New>> get recommengNewsStream => _recommendCtrlWidget.stream;
 
-  // 接受命令, 由外面使用(命令类型为Action)
-  StreamController<RefreshAction> _ctrlAction = StreamController();
-  StreamSink<RefreshAction> get sink => _ctrlAction.sink;
-  Stream<RefreshAction> get _stream => _ctrlAction.stream;
-
   // News model
   NewsModel newsModel;
 
   BlocNews() {
+    print(TAG + "BlocNews()");
     newsModel = NewsModel(this);
-    _stream.listen(_logic);
   }
 
   @override
   void dispose() {
+    print(TAG + "BlocNews.dispose");
     _hotCrlWidget.close();
     _recentCtrlWidget.close();
     _recommendCtrlWidget.close();
-    _ctrlAction.close();
-  }
-
-  /// 具体命令逻辑
-  void _logic(RefreshAction event) {
-    switch (event.action) {
-      case Action.getHotNews: // 热门新闻
-        if (!event.loadMore) {
-          hotNews.clear();
-        }
-        newsModel.getHotNews(
-            event.pageIndex, event.pageSize, event.startDate, event.endDate);
-        break;
-      case Action.getRecentNews: // 最新新闻
-        if (!event.loadMore) {
-          recentNews.clear();
-        }
-        newsModel.getRecentNews(event.pageIndex, event.pageSize);
-        break;
-      case Action.getRecommendNews: // 推荐新闻
-        if (!event.loadMore) {
-          recommandNews.clear();
-        }
-        newsModel.getRecommendNews(event.pageIndex, event.pageSize);
-        break;
-      default:
-        break;
-    }
   }
 
   void triggerHotNews(List<New> news) {
+    if (_hotCrlWidget.isClosed) {
+      print(TAG + "error: trigger Hot, but stream has been closed");
+      return;
+    }
+    print(TAG + "trigger Hot");
     // 通知UI
-    hotNews.addAll(news);
-    _hotNewsSink.add(hotNews);
+    _hotNewsSink.add(news);
   }
 
   void triggerRecentNews(List<New> news) {
+    if (_recentCtrlWidget.isClosed) {
+      print(TAG + "error: trigger Recent, but stream has been closed");
+      return;
+    }
+    print(TAG + "trigger Recent");
     // 通知UI
-    recentNews.addAll(news);
-    _recentNewsSink.add(recentNews);
+    _recentNewsSink.add(news);
   }
 
   void triggerRecommandNews(List<New> news) {
+    if (_recommendCtrlWidget.isClosed) {
+      print(TAG + "error: trigger Recommand, but stream has been closed");
+      return;
+    }
+    print(TAG + "trigger Recommand");
     // 通知UI
-    recommandNews.addAll(news);
-    _recommendNewsSink.add(recommandNews);
+    _recommendNewsSink.add(news);
   }
 
   void triggerNewBody(NewBody newBody) {
@@ -100,6 +76,32 @@ class BlocNews extends BlocNewsCommon {
   }
 
   void triggerNewComments(NewComments newComments) {
+    // ignore
+  }
+
+  @override
+  void getHotNews(
+      int pageIndex, int pageSize, String startDate, String endDate) {
+    newsModel.getHotNews(pageIndex, pageSize, startDate, endDate);
+  }
+
+  @override
+  void getRecentNews(int pageIndex, int pageSize) {
+    newsModel.getRecentNews(pageIndex, pageSize);
+  }
+
+  @override
+  void getRecommandNews(int pageIndex, int pageSize) {
+    newsModel.getRecommendNews(pageIndex, pageSize);
+  }
+
+  @override
+  void getNewBody(int newId) {
+    // ignore
+  }
+
+  @override
+  void getNewComments(int newId, int pageIndex, int pageSize) {
     // ignore
   }
 }
