@@ -4,8 +4,7 @@ import 'package:fblog/bean/newBody.dart';
 import 'package:fblog/bean/newComments.dart';
 import 'package:fblog/bean/news.dart';
 import 'package:fblog/bloc/bloc_news_common.dart';
-
-import '../model/news_model.dart';
+import 'package:fblog/model/news_detail_model.dart';
 
 class BlocNewDetail extends BlocNewsCommon {
   static const String TAG = "bloc_new_detail.dart ";
@@ -21,11 +20,11 @@ class BlocNewDetail extends BlocNewsCommon {
   Stream<NewComments> get newCommentsStream => _newCommentsCtrlWidget.stream;
 
   // News model
-  NewsModel newsModel;
+  NewsDetailModel newsModel;
 
   BlocNewDetail() {
     print(TAG + "BlocNewDetail()");
-    newsModel = NewsModel(this);
+    newsModel = NewsDetailModel<BlocNewDetail>(this);
   }
 
   void triggerNewBody(NewBody newBody) {

@@ -30,7 +30,7 @@ class BlocNews extends BlocNewsCommon {
 
   BlocNews() {
     print(TAG + "BlocNews()");
-    newsModel = NewsModel(this);
+    newsModel = NewsModel<BlocNews>(this);
   }
 
   @override
@@ -112,15 +112,4 @@ enum Action {
   getRecommendNews,
   getNewBody,
   getNewComments
-}
-
-class RefreshAction {
-  Action action;
-  // 标记是下拉还是上拉刷新
-  bool loadMore;
-  int pageIndex = 1;
-  int pageSize = 10;
-  String startDate = '2018-01-16T16:01:34.62';
-  String endDate = '2018-10-26T15:33:50.587';
-  int newId = 651511;
 }
