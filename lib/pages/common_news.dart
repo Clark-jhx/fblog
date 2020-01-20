@@ -3,6 +3,7 @@ import 'package:fblog/bloc/bloc_common/BlocProvider.dart';
 import 'package:fblog/bloc/bloc_news.dart';
 import 'package:fblog/widgets/item_news.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class CommonNewsContent extends StatefulWidget {
   Category category;
@@ -19,7 +20,6 @@ class CommonNewsContentState extends State<CommonNewsContent>
     with AutomaticKeepAliveClientMixin {
   static const String TAG = "common_news.dart ";
   static const int PAGESIZE = 10;
-  bool flag = false;
 
   int pageIndex = 1;
   int pageSize = PAGESIZE;
@@ -28,7 +28,8 @@ class CommonNewsContentState extends State<CommonNewsContent>
 
   BlocNews blocNews;
 
-  ScrollController _scrollController;
+  bool refreshing = false;
+  EasyRefreshController _controller;
 
   @override
   void initState() {
@@ -40,8 +41,7 @@ class CommonNewsContentState extends State<CommonNewsContent>
   void _init() {
     // 必须在新闻页中使用
     blocNews = BlocProvider.of<BlocNews>(context);
-    _scrollController = ScrollController();
-    _scrollController.addListener(_listlistener);
+    _controller = EasyRefreshController();
   }
 
   @override
@@ -57,7 +57,20 @@ class CommonNewsContentState extends State<CommonNewsContent>
     return Center(
       // Center is a layout widget. It takes a single child and positions it
       // in the middle of the parent.
-      child: RefreshIndicator(
+      child: EasyRefresh(
+        controller: _controller,
+        enableControlFinishRefresh: true,
+        enableControlFinishLoad: true,
+        header: ClassicalHeader(),
+        footer: ClassicalFooter(),
+        firstRefresh: false,
+        firstRefreshWidget: _getLoadWidget(),
+        emptyWidget: null,
+        topBouncing: true,
+        bottomBouncing: true,
+        headerIndex: null,
+        taskIndependence: true,
+        onLoad: _onLoad,
         onRefresh: _onRefresh,
         child: StreamBuilder<List<New>>(
           stream: getStream(),
@@ -66,18 +79,15 @@ class CommonNewsContentState extends State<CommonNewsContent>
             List<New> news = snapshot.data;
             print(TAG + "列表有更新 列表大小：" + news.length.toString());
             return ListView.builder(
-                itemCount: news.length + 1,
-                controller: _scrollController,
+                shrinkWrap:
+                    true, //解决异常：Vertical viewport was given unbounded height
                 physics:
-                    AlwaysScrollableScrollPhysics(), // 解决item数量太少，无法下拉刷新的问题
+                    ClampingScrollPhysics(), //解决异常：Vertical viewport was given unbounded height
+                primary:
+                    false, //解决异常：Vertical viewport was given unbounded height
+                itemCount: news.length,
                 itemBuilder: (BuildContext context, int index) {
-                  if (index == news.length && news.length != 0 && index > 6) {
-                    return _loadMore();
-                  } else if (news.length == 0) {
-                    return _firstLoad();
-                  } else {
-                    return _itemBuilder(context, index, news);
-                  }
+                  return _itemBuilder(context, index, news);
                 });
           },
         ),
@@ -118,77 +128,81 @@ class CommonNewsContentState extends State<CommonNewsContent>
 
   // ignore: missing_return
   Future<void> _onRefresh() async {
-    if (flag) {
-      return;
-    }
-    flag = true;
-    print(TAG + '下拉刷新');
-    Future.delayed(Duration(milliseconds: 3000), () {
-      flag = false;
-    });
-    _getNews(1, PAGESIZE, startDate, endDate);
-  }
-
-  // list 滑动监听
-  void _listlistener() {
-    // 滑到最底部
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      _getMore();
+    print(TAG + '开始 下拉刷新');
+    if (!refreshing) {
+      refreshing = true;
+      await _getNews(1, PAGESIZE, startDate, endDate, (dataSize) {
+        print(TAG + '结束 下拉刷新 成功');
+        refreshing = false;
+        _controller.finishRefresh();
+      }, (errorString) {
+        print(TAG + '结束 下拉刷新 失败');
+        refreshing = false;
+        _controller.finishRefresh();
+        // TODO: 土司：下拉刷新失败
+      });
     }
   }
 
-  void _getMore() {
-    print(TAG + '上拉加载');
-    pageIndex++;
-    _getNews(pageIndex, PAGESIZE, startDate, endDate);
+  // ignore: missing_return
+  Future<void> _onLoad() async {
+    print(TAG + '开始 上拉加载');
+    if (!refreshing) {
+      pageIndex++;
+      refreshing = true;
+      await _getNews(pageIndex, PAGESIZE, startDate, endDate, (dataSize) {
+        print(TAG + '结束 上拉加载 成功');
+        refreshing = false;
+        _controller.finishLoad();
+      }, (errorString) {
+        print(TAG + '结束 上拉加载 失败');
+        refreshing = false;
+        _controller.finishLoad();
+        // TODO: 土司：上拉加载失败
+      });
+    }
   }
 
-  void _getNews(int pageIndex, int pageSize, String startDate, String endDate) {
+  void _getNews(int pageIndex, int pageSize, String startDate, String endDate,
+      OnSuccessCallback onSuccess, OnErrorCallback onError) {
     switch (widget.category) {
       case Category.Hot:
-        blocNews.getHotNews(pageIndex, pageSize, startDate, endDate);
+        blocNews.getHotNews(
+            pageIndex, pageSize, startDate, endDate, onSuccess, onError);
         break;
       case Category.Recent:
-        blocNews.getRecentNews(pageIndex, pageSize);
+        blocNews.getRecentNews(pageIndex, pageSize, onSuccess, onError);
         break;
       case Category.Recommend:
-        blocNews.getRecommandNews(pageIndex, pageSize);
+        blocNews.getRecommandNews(pageIndex, pageSize, onSuccess, onError);
         break;
     }
+  }
+
+  Widget _getLoadWidget() {
+//    return ListView.builder(
+//        itemCount: 10,
+//        itemBuilder: (BuildContext context, int index) {
+//          return SampleListItem();
+//        });
+    return Center(
+      widthFactor: 40,
+      heightFactor: 40,
+      child: CircularProgressIndicator(
+        value: null,
+        strokeWidth: 1,
+      ),
+    );
   }
 
   @override
   // wantKeepAlive
   bool get wantKeepAlive => true;
-
-  // 加载更多
-  Widget _loadMore() {
-    return Container(
-      height: 50,
-      alignment: Alignment.center,
-      child: Text('加载更多...'),
-    );
-  }
-
-  // 第一次进入，触发刷新
-  Widget _firstLoad() {
-    Future.delayed(Duration(milliseconds: 1500), () {
-      _onRefresh();
-    });
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        CircularProgressIndicator(
-          value: null,
-          strokeWidth: 1,
-        ),
-//        Text('下拉刷新'),
-      ],
-    );
-  }
 }
+
+// 上拉/下拉 成功与否的回调
+typedef OnSuccessCallback = void Function(int dataSize);
+typedef OnErrorCallback = void Function(String errorString);
 
 enum Category {
   Hot,

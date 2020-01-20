@@ -71,6 +71,9 @@ class NewsModel<T extends BlocNewsCommon> {
   /// 获取热门新闻
   Future getHotNews(
       int pageIndex, int pageSize, String startDate, String endDate) async {
+    if (pageIndex == 1) {
+      hotNews.clear();
+    }
     try {
       await platform.invokeMethod(GET_HOT_NEWS, <String, dynamic>{
         KEY_PAGE_INDEX: pageIndex,
@@ -85,6 +88,9 @@ class NewsModel<T extends BlocNewsCommon> {
 
   /// 获取最新新闻
   Future getRecentNews(int pageIndex, int pageSize) async {
+    if (pageIndex == 1) {
+      recentNews.clear();
+    }
     try {
       await platform.invokeMethod(GET_RECENT_NEWS,
           <String, int>{KEY_PAGE_INDEX: pageIndex, KEY_PAGE_SIZE: pageSize});
@@ -95,6 +101,9 @@ class NewsModel<T extends BlocNewsCommon> {
 
   // 获取推荐新闻
   Future getRecommendNews(int pageIndex, int pageSize) async {
+    if (pageIndex == 1) {
+      recommandNews.clear();
+    }
     try {
       await platform.invokeMethod(GET_RECOMMEND_NEWS,
           <String, int>{KEY_PAGE_INDEX: pageIndex, KEY_PAGE_SIZE: pageSize});

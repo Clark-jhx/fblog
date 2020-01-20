@@ -5,6 +5,7 @@ import 'package:fblog/bean/newComments.dart';
 import 'package:fblog/bean/news.dart';
 import 'package:fblog/bloc/bloc_news_common.dart';
 import 'package:fblog/model/news_detail_model.dart';
+import 'package:fblog/pages/common_news.dart';
 
 class BlocNewDetail extends BlocNewsCommon {
   static const String TAG = "bloc_new_detail.dart ";
@@ -71,18 +72,20 @@ class BlocNewDetail extends BlocNewsCommon {
   }
 
   @override
-  void getHotNews(
-      int pageIndex, int pageSize, String startDate, String endDate) {
+  void getHotNews(int pageIndex, int pageSize, String startDate, String endDate,
+      OnSuccessCallback onSuccessCallback, OnErrorCallback onErrorCallback) {
     // ignore
   }
 
   @override
-  void getRecentNews(int pageIndex, int pageSize) {
+  void getRecentNews(int pageIndex, int pageSize,
+      OnSuccessCallback onSuccessCallback, OnErrorCallback onErrorCallback) {
     // ignore
   }
 
   @override
-  void getRecommandNews(int pageIndex, int pageSize) {
+  void getRecommandNews(int pageIndex, int pageSize,
+      OnSuccessCallback onSuccessCallback, OnErrorCallback onErrorCallback) {
     // ignore
   }
 }

@@ -37,12 +37,14 @@ class _ExampleState extends State<Example> {
       body: EasyRefresh(
         controller: _controller,
         onRefresh: () async {
+          // 下拉刷新
           await Future.delayed(Duration(seconds: 2), () {
             setState(() {});
             _controller.resetLoadState();
           });
         },
         onLoad: () async {
+          // 上拉加载更多
           await Future.delayed(Duration(seconds: 2), () {
             print('onLoad');
             setState(() {

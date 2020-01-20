@@ -4,6 +4,7 @@ import 'package:fblog/bean/newBody.dart';
 import 'package:fblog/bean/newComments.dart';
 import 'package:fblog/bean/news.dart';
 import 'package:fblog/bloc/bloc_news_common.dart';
+import 'package:fblog/pages/common_news.dart';
 
 import '../model/news_model.dart';
 
@@ -24,6 +25,13 @@ class BlocNews extends BlocNewsCommon {
   StreamController<List<New>> _recommendCtrlWidget = StreamController();
   StreamSink<List<New>> get _recommendNewsSink => _recommendCtrlWidget.sink;
   Stream<List<New>> get recommengNewsStream => _recommendCtrlWidget.stream;
+
+  OnSuccessCallback _onHotSuccessCallback;
+  OnErrorCallback _onHotErrorCallback;
+  OnSuccessCallback _onRecentSuccessCallback;
+  OnErrorCallback _onRecentErrorCallback;
+  OnSuccessCallback _onRecommandSuccessCallback;
+  OnErrorCallback _onRecommandErrorCallback;
 
   // News model
   NewsModel newsModel;
@@ -47,6 +55,7 @@ class BlocNews extends BlocNewsCommon {
       return;
     }
     print(TAG + "trigger Hot");
+    _onHotSuccessCallback(news.length);
     // 通知UI
     _hotNewsSink.add(news);
   }
@@ -57,6 +66,7 @@ class BlocNews extends BlocNewsCommon {
       return;
     }
     print(TAG + "trigger Recent");
+    _onRecentSuccessCallback(news.length);
     // 通知UI
     _recentNewsSink.add(news);
   }
@@ -67,6 +77,7 @@ class BlocNews extends BlocNewsCommon {
       return;
     }
     print(TAG + "trigger Recommand");
+    _onRecommandSuccessCallback(news.length);
     // 通知UI
     _recommendNewsSink.add(news);
   }
@@ -80,18 +91,26 @@ class BlocNews extends BlocNewsCommon {
   }
 
   @override
-  void getHotNews(
-      int pageIndex, int pageSize, String startDate, String endDate) {
+  void getHotNews(int pageIndex, int pageSize, String startDate, String endDate,
+      OnSuccessCallback onSuccessCallback, OnErrorCallback onErrorCallback) {
+    _onHotSuccessCallback = onSuccessCallback;
+    _onHotErrorCallback = onErrorCallback;
     newsModel.getHotNews(pageIndex, pageSize, startDate, endDate);
   }
 
   @override
-  void getRecentNews(int pageIndex, int pageSize) {
+  void getRecentNews(int pageIndex, int pageSize,
+      OnSuccessCallback onSuccessCallback, OnErrorCallback onErrorCallback) {
+    _onRecentSuccessCallback = onSuccessCallback;
+    _onRecentErrorCallback = onErrorCallback;
     newsModel.getRecentNews(pageIndex, pageSize);
   }
 
   @override
-  void getRecommandNews(int pageIndex, int pageSize) {
+  void getRecommandNews(int pageIndex, int pageSize,
+      OnSuccessCallback onSuccessCallback, OnErrorCallback onErrorCallback) {
+    _onRecommandSuccessCallback = onSuccessCallback;
+    _onRecommandErrorCallback = onErrorCallback;
     newsModel.getRecommendNews(pageIndex, pageSize);
   }
 
