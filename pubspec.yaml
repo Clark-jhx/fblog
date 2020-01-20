@@ -21,6 +21,8 @@ dependencies:
     sdk: flutter
   # add flutter_screenutil
   flutter_screenutil: ^0.7.0
+  # 上拉下拉刷新
+  pull_to_refresh: ^1.5.7
   flutter_easyrefresh: ^2.0.8
   flutter_html: ^0.11.1
 
