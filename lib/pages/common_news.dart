@@ -42,6 +42,9 @@ class CommonNewsContentState extends State<CommonNewsContent>
     // 必须在新闻页中使用
     blocNews = BlocProvider.of<BlocNews>(context);
     _controller = EasyRefreshController();
+    Future.delayed(Duration(milliseconds: 1000), () {
+      _onRefresh();
+    });
   }
 
   @override
@@ -64,7 +67,7 @@ class CommonNewsContentState extends State<CommonNewsContent>
         header: ClassicalHeader(),
         footer: ClassicalFooter(),
         firstRefresh: false,
-        firstRefreshWidget: _getLoadWidget(),
+        firstRefreshWidget: null,
         emptyWidget: null,
         topBouncing: true,
         bottomBouncing: true,
@@ -78,17 +81,21 @@ class CommonNewsContentState extends State<CommonNewsContent>
           builder: (BuildContext context, AsyncSnapshot<List<New>> snapshot) {
             List<New> news = snapshot.data;
             print(TAG + "列表有更新 列表大小：" + news.length.toString());
-            return ListView.builder(
-                shrinkWrap:
-                    true, //解决异常：Vertical viewport was given unbounded height
-                physics:
-                    ClampingScrollPhysics(), //解决异常：Vertical viewport was given unbounded height
-                primary:
-                    false, //解决异常：Vertical viewport was given unbounded height
-                itemCount: news.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _itemBuilder(context, index, news);
-                });
+            if (news.length == 0) {
+              return _getLoadWidget();
+            } else {
+              return ListView.builder(
+                  shrinkWrap:
+                      true, //解决异常：Vertical viewport was given unbounded height
+                  physics:
+                      ClampingScrollPhysics(), //解决异常：Vertical viewport was given unbounded height
+                  primary:
+                      false, //解决异常：Vertical viewport was given unbounded height
+                  itemCount: news.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _itemBuilder(context, index, news);
+                  });
+            }
           },
         ),
       ),
@@ -131,7 +138,8 @@ class CommonNewsContentState extends State<CommonNewsContent>
     print(TAG + '开始 下拉刷新');
     if (!refreshing) {
       refreshing = true;
-      await _getNews(1, PAGESIZE, startDate, endDate, (dataSize) {
+      pageIndex = 1;
+      await _getNews(pageIndex, PAGESIZE, startDate, endDate, (dataSize) {
         print(TAG + '结束 下拉刷新 成功');
         refreshing = false;
         _controller.finishRefresh();
@@ -181,16 +189,23 @@ class CommonNewsContentState extends State<CommonNewsContent>
 
   Widget _getLoadWidget() {
 //    return ListView.builder(
+//        shrinkWrap: true,
 //        itemCount: 10,
 //        itemBuilder: (BuildContext context, int index) {
 //          return SampleListItem();
 //        });
-    return Center(
-      widthFactor: 40,
-      heightFactor: 40,
-      child: CircularProgressIndicator(
-        value: null,
-        strokeWidth: 1,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.8,
+      child: Center(
+        child: SizedBox(
+          width: 30,
+          height: 30,
+          child: CircularProgressIndicator(
+            value: null,
+            strokeWidth: 1,
+          ),
+        ),
       ),
     );
   }
