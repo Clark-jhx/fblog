@@ -72,7 +72,7 @@ class NewsDetailsMainState extends State<NewsDetailsMain> {
                   child: Html(
                     padding:
                         EdgeInsets.only(left: 2, top: 1, right: 2, bottom: 1),
-                    data: newBody.content.replaceAll("\\r\\n", " "),
+                    data: newBody.content,
                   ),
                 );
               }
