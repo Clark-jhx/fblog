@@ -1,7 +1,7 @@
 package com.clark.fblog.view;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.clark.fblog.Presenter.NewsPresenter;
 import com.clark.fblog.Presenter.NewsPresenterImple;
