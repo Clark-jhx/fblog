@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class MinePage extends StatefulWidget {
   static const String TAG = "mine.dart ";
@@ -34,7 +35,9 @@ class MineState extends State<MinePage> {
         // in the middle of the parent.
         child: Container(
           alignment: Alignment.center,
-          child: Text('mine'),
+          child: WebView(
+            initialUrl: 'https://www.baidu.com',
+          ),
         ),
       ),
     );
